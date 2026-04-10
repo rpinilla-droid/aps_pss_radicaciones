@@ -14,7 +14,7 @@
 </head>
 <body class="bg-[#0f172a] min-h-screen font-sans">
 
-    <!-- SECCIÓN 1: LOGIN -->
+    <!-- LOGIN -->
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
         <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
@@ -24,7 +24,7 @@
             <div class="p-10 space-y-6">
                 <div>
                     <label class="block text-[11px] font-black text-[#94a3b8] uppercase mb-2 tracking-wider ml-1">Código SISALRIL</label>
-                    <input type="text" id="user-code" placeholder="Ingrese su código (Ej: 9)" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none">
+                    <input type="text" id="user-code" placeholder="Ingrese su código" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-[11px] font-black text-[#94a3b8] uppercase mb-2 tracking-wider ml-1">Contraseña</label>
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN 2: PORTAL PRINCIPAL -->
+    <!-- PORTAL PRINCIPAL -->
     <div id="portal-section" class="hidden-section pb-20 bg-slate-100 min-h-screen text-slate-900">
         <header class="bg-[#1e293b] text-white shadow-xl">
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b border-slate-700">
@@ -57,6 +57,7 @@
         <main class="max-w-7xl mx-auto p-8">
             <!-- VISTA: NUEVA RADICACIÓN -->
             <div id="tab-nueva" class="space-y-6">
+                <!-- FORMULARIO FISCAL -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha NCF</label>
@@ -72,6 +73,7 @@
                     </div>
                 </div>
 
+                <!-- BUSCADOR -->
                 <div class="bg-white rounded-2xl shadow-sm border p-6">
                     <h3 class="font-bold text-slate-700 text-[10px] uppercase mb-4 tracking-widest italic">🔍 Búsqueda de Autorizaciones</h3>
                     <div class="flex gap-3">
@@ -80,6 +82,13 @@
                     </div>
                 </div>
 
+                <!-- MENSAJE DE CAMPOS OBLIGATORIOS (RESTAURADO) -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl flex items-center gap-3">
+                    <span class="text-blue-600 text-lg">ℹ️</span>
+                    <p class="text-xs font-bold text-blue-800 uppercase tracking-wide">Todos los campos del encabezado (Fecha, NCF y Correo) son obligatorios para finalizar la radicación.</p>
+                </div>
+
+                <!-- TABLA LOTE -->
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
@@ -155,23 +164,23 @@
         </main>
     </div>
 
-    <!-- MODAL DETALLE AUTORIZACIÓN (RESTAURADO) -->
+    <!-- MODAL DETALLE AUTORIZACIÓN -->
     <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
+        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col text-slate-900">
             <div class="bg-[#1e3a8a] p-4 text-white flex justify-between items-center">
-                <h2 class="font-bold text-lg">📋 Detalle de Autorización: <span id="modal-num-auth" class="text-yellow-400 font-mono"></span></h2>
-                <button onclick="cerrarModal()" class="text-2xl hover:text-red-400">✕</button>
+                <h2 class="font-bold text-lg uppercase tracking-tight">Detalle Autorización: <span id="modal-num-auth" class="text-yellow-400 font-mono"></span></h2>
+                <button onclick="cerrarModal()" class="text-2xl hover:text-red-400 transition">✕</button>
             </div>
             <div class="p-6 overflow-y-auto">
-                <div class="bg-[#f0f7ff] p-6 rounded-xl border-l-[6px] border-l-blue-500 grid grid-cols-2 gap-8 mb-8 text-slate-900">
-                    <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Afiliado</p><p id="modal-afiliado" class="font-black text-xl tracking-tight">JUNIEL ABREU MARTE</p></div>
-                    <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Prestador</p><p id="modal-prestador-solicitante" class="font-bold text-slate-500 uppercase"></p></div>
+                <div class="bg-[#f0f7ff] p-6 rounded-xl border-l-[6px] border-l-blue-500 grid grid-cols-2 gap-8 mb-8">
+                    <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Afiliado</p><p id="modal-afiliado" class="font-black text-xl">JUNIEL ABREU MARTE</p></div>
+                    <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Prestador</p><p id="modal-prestador-solicitante" class="font-bold text-slate-500"></p></div>
                 </div>
-                <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="rounded-xl border border-slate-200 overflow-hidden">
                     <table class="w-full text-sm">
                         <thead class="bg-[#1e293b] text-white text-[10px] uppercase">
                             <tr>
-                                <th class="px-4 py-4 text-left">Descripción</th>
+                                <th class="px-4 py-4 text-left">Descripción Servicio</th>
                                 <th class="px-4 py-4 text-right">Precio Bruto</th>
                                 <th class="px-4 py-4 text-center" style="width: 140px;">Valor Glosa</th>
                                 <th class="px-4 py-4 text-left">Motivo Glosa</th>
@@ -212,7 +221,6 @@
             document.getElementById('nav-' + tab).classList.add('nav-active', 'text-white');
         }
 
-        // BÚSQUEDA RESTAURADA
         function abrirModalAutorizacion() {
             const num = document.getElementById('search-input').value;
             if(!num) return;
@@ -220,7 +228,6 @@
             document.getElementById('modal-num-auth').innerText = num;
             document.getElementById('modal-prestador-solicitante').innerText = prestadorNombreActual;
             
-            // Simulación de datos para el ejemplo 3726192
             authActual = { id: num, afiliado: "JUNIEL ABREU MARTE", servicios: [
                 { desc: "CONSULTA EN EMERGENCIA", monto: 800.00, glosa: 0, motivo: "", comentario: "" },
                 { desc: "SALA DE EMERGENCIA Y/O URGENCIA", monto: 15534.66, glosa: 0, motivo: "", comentario: "" }
@@ -231,10 +238,17 @@
             authActual.servicios.forEach((s, i) => {
                 body.innerHTML += `
                     <tr>
-                        <td class="px-4 py-4 font-bold text-xs">${s.desc}</td>
+                        <td class="px-4 py-4 font-bold text-xs uppercase">${s.desc}</td>
                         <td class="px-4 py-4 text-right font-bold">$ ${s.monto.toLocaleString()}</td>
-                        <td class="px-4 py-4"><input type="number" onchange="authActual.servicios[${i}].glosa=parseFloat(this.value)||0" class="w-full border rounded-lg text-center text-red-600 font-bold p-1"></td>
-                        <td class="px-4 py-4"><select onchange="authActual.servicios[${i}].motivo=this.value" class="w-full border rounded-lg text-[10px] p-1"><option value="">Seleccionar...</option><option value="Pertinencia">Pertinencia</option><option value="Tarifa">Tarifa</option></select></td>
+                        <td class="px-4 py-4"><input type="number" onchange="authActual.servicios[${i}].glosa=parseFloat(this.value)||0" class="w-full border rounded-lg text-center text-red-600 font-bold p-1 outline-none focus:border-red-500"></td>
+                        <td class="px-4 py-4">
+                            <select onchange="authActual.servicios[${i}].motivo=this.value" class="w-full border rounded-lg text-[10px] p-1 uppercase font-bold">
+                                <option value="">Seleccionar...</option>
+                                <option value="Pertinencia">Pertinencia</option>
+                                <option value="Tarifa">Tarifa</option>
+                                <option value="Documentación">Documentación</option>
+                            </select>
+                        </td>
                         <td class="px-4 py-4"><input type="text" onchange="authActual.servicios[${i}].comentario=this.value" class="w-full border rounded-lg text-[10px] p-1"></td>
                     </tr>`;
             });
@@ -259,7 +273,16 @@
             let total = 0;
             lote.forEach((it, i) => {
                 total += it.neto;
-                b.innerHTML += `<tr><td class="px-6 py-4 font-mono font-bold text-blue-600">${it.id}</td><td class="px-6 py-4 uppercase font-bold text-[11px]">${it.afiliado}</td><td class="px-6 py-4 text-right">$ ${it.bruto.toLocaleString()}</td><td class="px-6 py-4 text-right text-red-500 font-bold">$ ${it.glosa.toLocaleString()}</td><td class="px-6 py-4 text-right text-blue-600 font-black">$ ${it.neto.toLocaleString()}</td><td class="px-6 py-4 text-[10px] font-bold text-slate-400 italic">${it.motivos || 'Sin Glosa'}</td><td class="px-6 py-4 text-center cursor-pointer hover:text-red-500" onclick="lote.splice(${i},1);renderLote()">✕</td></tr>`;
+                b.innerHTML += `
+                    <tr>
+                        <td class="px-6 py-4 font-mono font-bold text-blue-600">${it.id}</td>
+                        <td class="px-6 py-4 uppercase font-bold text-[11px]">${it.afiliado}</td>
+                        <td class="px-6 py-4 text-right">$ ${it.bruto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right text-red-500 font-bold">$ ${it.glosa.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right text-blue-600 font-black">$ ${it.neto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-[10px] font-bold text-slate-400 italic">${it.motivos || 'Sin Glosa'}</td>
+                        <td class="px-6 py-4 text-center cursor-pointer hover:text-red-500 transition" onclick="lote.splice(${i},1);renderLote()">✕</td>
+                    </tr>`;
             });
             document.getElementById('total-cant').innerText = lote.length;
             document.getElementById('total-monto').innerText = `$ ${total.toLocaleString()}`;
@@ -269,7 +292,15 @@
             const f = document.getElementById('fecha-ncf').value;
             const n = document.getElementById('ncf').value;
             const e = document.getElementById('email-resumen').value;
-            if(lote.length === 0 || !f || !n || !e) return Swal.fire('Incompleto', 'Llene todos los campos.', 'warning');
+            
+            if(lote.length === 0 || !f || !n || !e) {
+                return Swal.fire({
+                    title: 'Incompleto',
+                    text: 'Llene todos los campos.',
+                    icon: 'warning',
+                    confirmButtonColor: '#4f46e5'
+                });
+            }
             
             const numRad = "RAD-" + Math.floor(Math.random()*999999);
             Swal.fire({
