@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Radicaciones - Autogestión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header / Contexto -->
+        <div class="bg-blue-700 p-6 text-white flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Portal de Radicaciones</h1>
+                <p class="text-blue-100">Prestador: <span id="prestador-info" class="font-semibold">9 - POLICLINICO UNION S R L</span></p>
+            </div>
+            <div class="text-right">
+                <p id="fecha-actual" class="text-sm"></p>
+                <span class="bg-blue-500 px-3 py-1 rounded-full text-xs uppercase tracking-wider">Rol: Prestador</span>
+            </div>
+        </div>
+
+        <div class="p-6 space-y-8">
+            <!-- Formulario Principal -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">NCF (Número Crédito Fiscal)</label>
+                    <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-2 border rounded border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Fecha NCF</label>
+                    <input type="date" id="fecha-ncf" class="w-full p-2 border rounded border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Correo para Resumen</label>
+                    <input type="email" id="email-resumen" placeholder="ejemplo@correo.com" class="w-full p-2 border rounded border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+            </div>
+
+            <!-- Buscador de Autorizaciones -->
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold border-b pb-2 flex items-center">
+                    <span class="mr-2">🔍</span> Buscar Autorización
+                </h2>
+                <div class="flex gap-2">
+                    <input type="text" id="search-autorizacion" placeholder="Ingrese número de autorización..." class="flex-1 p-2 border rounded border-gray-300">
+                    <button onclick="buscarAutorizacion()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Agregar</button>
+                </div>
+            </div>
+
+            <!-- Grilla de Resultados -->
+            <div class="overflow-x-auto border rounded-lg">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                        <tr>
+                            <th class="p-3">Autorización</th>
+                            <th class="p-3">Servicio</th>
+                            <th class="p-3 w-32">Monto ($)</th>
+                            <th class="p-3 w-32">Glosa ($)</th>
+                            <th class="p-3">Motivo Glosa</th>
+                            <th class="p-3">Total</th>
+                            <th class="p-3 text-center">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="grilla-body" class="divide-y divide-gray-200">
+                        <!-- Filas dinámicas -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Totales y Guardar -->
+            <div class="flex flex-col md:flex-row justify-between items-center bg-gray-50 p-6 rounded-lg gap-4">
+                <div class="flex gap-8">
+                    <div>
+                        <p class="text-sm text-gray-500 uppercase font-bold tracking-tighter">Cantidad</p>
+                        <p id="total-cantidad" class="text-2xl font-bold text-gray-800">0</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 uppercase font-bold tracking-tighter">Monto Total</p>
+                        <p id="total-monto" class="text-2xl font-bold text-blue-700">$ 0.00</p>
+                    </div>
+                </div>
+                <button onclick="guardarRadicacion()" class="w-full md:w-auto bg-green-600 text-white px-10 py-3 rounded-lg font-bold hover:bg-green-700 shadow-lg transform transition active:scale-95">
+                    GUARDAR RADICACIÓN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración inicial
+        document.getElementById('fecha-actual').innerText = `Fecha Rec.: ${new Date().toLocaleDateString('es-DO')}`;
+        let autorizaciones = [];
+
+        function buscarAutorizacion() {
+            const num = document.getElementById('search-autorizacion').value;
+            if(!num) return Swal.fire('Error', 'Ingrese un número de autorización', 'error');
+
+            // Mock de datos de autorización
+            const mockData = {
+                id: num,
+                servicio: "CONSULTA EN EMERGENCIA",
+                monto: 800.00,
+                glosa: 0,
+                motivo: ""
+            };
+
+            autorizaciones.push(mockData);
+            renderGrilla();
+            document.getElementById('search-autorizacion').value = '';
+        }
+
+        function updateGlosa(index, valor) {
+            autorizaciones[index].glosa = parseFloat(valor) || 0;
+            renderGrilla();
+        }
+
+        function removeAutorizacion(index) {
+            autorizaciones.splice(index, 1);
+            renderGrilla();
+        }
+
+        function renderGrilla() {
+            const body = document.getElementById('grilla-body');
+            body.innerHTML = '';
+            let total = 0;
+
+            autorizaciones.forEach((item, index) => {
+                const totalFila = item.monto - item.glosa;
+                total += totalFila;
+                
+                body.innerHTML += `
+                    <tr class="hover:bg-blue-50 transition">
+                        <td class="p-3 font-mono text-blue-600 font-bold">${item.id}</td>
+                        <td class="p-3 text-sm text-gray-600">${item.servicio}</td>
+                        <td class="p-3 font-semibold">$ ${item.monto.toFixed(2)}</td>
+                        <td class="p-3">
+                            <input type="number" onchange="updateGlosa(${index}, this.value)" value="${item.glosa}" class="w-20 p-1 border rounded text-red-600 font-bold">
+                        </td>
+                        <td class="p-3">
+                            <select class="text-xs p-1 border rounded w-full">
+                                <option>Ninguno</option>
+                                <option>Documentación Incompleta</option>
+                                <option>Servicio no cubierto</option>
+                            </select>
+                        </td>
+                        <td class="p-3 font-bold text-green-700">$ ${totalFila.toFixed(2)}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="removeAutorizacion(${index})" class="text-red-500 hover:text-red-700 italic text-sm">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('total-cantidad').innerText = autorizaciones.length;
+            document.getElementById('total-monto').innerText = `$ ${total.toLocaleString('es-DO', {minimumFractionDigits: 2})}`;
+        }
+
+        function guardarRadicacion() {
+            const ncf = document.getElementById('ncf').value;
+            const email = document.getElementById('email-resumen').value;
+
+            if(!ncf || !email || autorizaciones.length === 0) {
+                return Swal.fire('Campos requeridos', 'Por favor complete el NCF, Email y agregue al menos una autorización.', 'warning');
+            }
+
+            const numRadicacion = Math.floor(Math.random() * 900000) + 100000;
+            const hoy = new Date();
+            const fechaEfectiva = new Date(hoy.setDate(hoy.getDate() + 180)).toLocaleDateString('es-DO');
+
+            Swal.fire({
+                title: 'Radicación Guardada',
+                html: `
+                    <div class="text-left p-2 space-y-2">
+                        <p class="text-lg"><strong>Número:</strong> <span class="text-blue-600">${numRadicacion}</span></p>
+                        <p><strong>Fecha Efectividad:</strong> ${fechaEfectiva}</p>
+                        <p class="text-sm text-gray-500 mt-4 border-t pt-2 italic underline text-center">El resumen fue enviado a: ${email}</p>
+                    </div>
+                `,
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
