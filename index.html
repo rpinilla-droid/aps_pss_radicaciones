@@ -17,17 +17,17 @@
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
         <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
-                <h1 class="text-4xl font-black mb-1">Pruasdfa</h1>
+                <h1 class="text-4xl font-black mb-1">SISALRIL</h1>
                 <p class="text-[11px] font-bold uppercase tracking-widest">Portal Prestadores</p>
             </div>
             <div class="p-10 space-y-6">
                 <div>
                     <label class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1">Código SISALRIL</label>
-                    <input type="text" id="user-code" placeholder="9" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none">
+                    <input type="text" id="user-code" placeholder="9" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none focus:border-blue-500 transition">
                 </div>
                 <div>
                     <label class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1">Contraseña</label>
-                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none">
+                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none focus:border-blue-500 transition">
                 </div>
                 <button onclick="handleLogin()" class="w-full bg-[#2563eb] text-white font-bold py-4 rounded-[15px] shadow-lg uppercase text-sm tracking-widest hover:bg-blue-700 transition">Iniciar Sesión</button>
             </div>
@@ -79,24 +79,28 @@
                     </div>
                 </div>
 
-                <!-- TABLA CON DESGLOSE POR SERVICIO -->
+                <!-- TABLA LIMPIA Y APLANADA -->
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                    <table class="w-full text-sm">
-                        <thead class="bg-slate-50 text-[10px] text-slate-500 uppercase font-bold">
-                            <tr>
-                                <th class="px-6 py-5 text-left">Autorización / Servicio</th>
-                                <th class="px-6 py-5 text-right">Valor Bruto</th>
-                                <th class="px-6 py-5 text-right text-red-500">Glosa ($)</th>
-                                <th class="px-6 py-5 text-right text-blue-600">A Pagar</th>
-                                <th class="px-6 py-5 text-left">Motivo Glosa</th>
-                                <th class="px-6 py-5"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="lote-body" class="divide-y divide-slate-100"></tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 text-[10px] text-slate-500 uppercase font-bold">
+                                <tr>
+                                    <th class="px-6 py-5 text-left">Autor.</th>
+                                    <th class="px-6 py-5 text-left">Paciente</th>
+                                    <th class="px-6 py-5 text-left">Servicio</th>
+                                    <th class="px-6 py-5 text-right">Valor Bruto</th>
+                                    <th class="px-6 py-5 text-right text-red-500">Glosa ($)</th>
+                                    <th class="px-6 py-5 text-right text-blue-600">A Pagar</th>
+                                    <th class="px-6 py-5 text-left">Motivo Glosa</th>
+                                    <th class="px-6 py-5"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="lote-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
                     <div class="p-8 bg-[#0f172a] text-white flex justify-between items-center">
                         <div class="flex gap-12">
-                            <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Autorizaciones</p><p id="total-cant" class="text-4xl font-black">0</p></div>
+                            <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Servicios Totales</p><p id="total-cant" class="text-4xl font-black">0</p></div>
                             <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Neto Total</p><p id="total-monto" class="text-4xl font-black">$ 0.00</p></div>
                         </div>
                         <button onclick="finalizar()" class="bg-[#2ecc71] text-[#0f172a] px-12 py-5 rounded-2xl font-black text-xl hover:bg-[#27ae60] transition shadow-xl uppercase">Finalizar y Guardar</button>
@@ -107,47 +111,53 @@
             <!-- TAB: HISTORIAL -->
             <div id="tab-historial" class="hidden-section space-y-6">
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                    <table class="w-full text-sm">
-                        <thead class="bg-slate-50 text-[10px] text-slate-500 font-bold uppercase">
-                            <tr>
-                                <th class="px-6 py-5 text-left">Radicación</th>
-                                <th class="px-6 py-5 text-left">Fecha</th>
-                                <th class="px-6 py-5 text-right">Monto</th>
-                                <th class="px-6 py-5 text-center">Estado</th>
-                                <th class="px-6 py-5 text-center">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr>
-                                <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-001</td>
-                                <td class="px-6 py-4 text-slate-500 italic">2024-03-15</td>
-                                <td class="px-6 py-4 text-right font-black">$ 145,200.00</td>
-                                <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-green-200">Pagada</span></td>
-                                <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-001')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-002</td>
-                                <td class="px-6 py-4 text-slate-500 italic">2024-03-20</td>
-                                <td class="px-6 py-4 text-right font-black">$ 42,150.00</td>
-                                <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-blue-200">Aprobada</span></td>
-                                <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-002')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-003</td>
-                                <td class="px-6 py-4 text-slate-500 italic">2024-03-25</td>
-                                <td class="px-6 py-4 text-right font-black">$ 89,300.00</td>
-                                <td class="px-6 py-4 text-center"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-amber-200">En Revisión</span></td>
-                                <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-003')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 text-[10px] text-slate-500 font-bold uppercase">
+                                <tr>
+                                    <th class="px-6 py-5 text-left">Radicación</th>
+                                    <th class="px-6 py-5 text-left">Fecha</th>
+                                    <th class="px-6 py-5 text-left">NCF</th>
+                                    <th class="px-6 py-5 text-right">Monto</th>
+                                    <th class="px-6 py-5 text-center">Estado</th>
+                                    <th class="px-6 py-5 text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-001</td>
+                                    <td class="px-6 py-4 text-slate-500 italic">2024-03-15</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">E310000000110</td>
+                                    <td class="px-6 py-4 text-right font-black">$ 145,200.00</td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-green-200">Pagada</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-001')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-002</td>
+                                    <td class="px-6 py-4 text-slate-500 italic">2024-03-20</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">E310000000115</td>
+                                    <td class="px-6 py-4 text-right font-black">$ 42,150.00</td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-blue-200">Aprobada</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-002')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-003</td>
+                                    <td class="px-6 py-4 text-slate-500 italic">2024-03-25</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">E310000000120</td>
+                                    <td class="px-6 py-4 text-right font-black">$ 89,300.00</td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[9px] font-black uppercase border border-amber-200">En Revisión</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-003')" class="text-blue-500 font-bold text-[10px] uppercase underline">Ver Detalle</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        let autorizaciones = [];
+        let serviciosLote = [];
 
         function handleLogin() {
             const user = document.getElementById('user-code').value;
@@ -169,17 +179,11 @@
             const id = document.getElementById('search-input').value;
             if (!id) return;
             
-            // Simulación de búsqueda con servicios desglosados
-            const nuevaAuth = {
-                id: id,
-                paciente: 'JUNIEL ABREU MARTE',
-                servicios: [
-                    { desc: 'CONSULTA MÉDICA', bruto: 2500, glosa: 0, motivo: 'N/A' },
-                    { desc: 'HEMOGRAMA COMPLETO', bruto: 1200, glosa: 0, motivo: 'N/A' },
-                    { desc: 'RADIOGRAFÍA DE TÓRAX', bruto: 4367.33, glosa: 0, motivo: 'N/A' }
-                ]
-            };
-            autorizaciones.push(nuevaAuth);
+            // Agregamos los servicios como filas independientes para mantener la tabla plana
+            serviciosLote.push({ idAuth: id, paciente: 'JUNIEL ABREU MARTE', desc: 'CONSULTA MÉDICA', bruto: 2500, glosa: 0, motivo: 'N/A' });
+            serviciosLote.push({ idAuth: id, paciente: 'JUNIEL ABREU MARTE', desc: 'HEMOGRAMA COMPLETO', bruto: 1200, glosa: 0, motivo: 'N/A' });
+            serviciosLote.push({ idAuth: id, paciente: 'JUNIEL ABREU MARTE', desc: 'RADIOGRAFÍA DE TÓRAX', bruto: 4367.33, glosa: 0, motivo: 'N/A' });
+            
             render();
             document.getElementById('search-input').value = '';
         }
@@ -189,62 +193,55 @@
             body.innerHTML = '';
             let totalGeneral = 0;
 
-            autorizaciones.forEach((auth, authIdx) => {
-                // Fila de encabezado de Autorización
+            serviciosLote.forEach((serv, i) => {
+                const neto = serv.bruto - serv.glosa;
+                totalGeneral += neto;
+                
                 body.innerHTML += `
-                    <tr class="bg-slate-100/50">
-                        <td colspan="6" class="px-6 py-3 font-black text-blue-700 text-xs">
-                            AUTORIZACIÓN: ${auth.id} | PACIENTE: ${auth.paciente}
+                    <tr class="hover:bg-blue-50/30 transition">
+                        <td class="px-6 py-4 font-mono font-bold text-blue-600">${serv.idAuth}</td>
+                        <td class="px-6 py-4 text-[10px] font-bold uppercase text-slate-500">${serv.paciente}</td>
+                        <td class="px-6 py-4 font-bold text-slate-700 text-[11px]">${serv.desc}</td>
+                        <td class="px-6 py-4 text-right font-medium text-slate-500">$ ${serv.bruto.toFixed(2)}</td>
+                        <td class="px-6 py-4 text-right">
+                            <input type="number" step="0.01" class="w-20 p-1 text-right border-b-2 border-red-200 focus:border-red-500 outline-none text-red-600 font-bold bg-transparent" 
+                                value="${serv.glosa}" onchange="updateGlosa(${i}, this.value)">
                         </td>
+                        <td class="px-6 py-4 text-right font-black text-blue-600">$ ${neto.toFixed(2)}</td>
+                        <td class="px-6 py-4">
+                            <select onchange="updateMotivo(${i}, this.value)" class="text-[10px] font-black uppercase border rounded p-1 outline-none">
+                                <option value="N/A" ${serv.motivo === 'N/A' ? 'selected':''}>SIN GLOSA</option>
+                                <option value="TARIFA" ${serv.motivo === 'TARIFA' ? 'selected':''}>TARIFA INCORRECTA</option>
+                                <option value="DOC" ${serv.motivo === 'DOC' ? 'selected':''}>DOC. INCOMPLETA</option>
+                                <option value="NO CUBIERTO" ${serv.motivo === 'NO CUBIERTO' ? 'selected':''}>NO CUBIERTO</option>
+                            </select>
+                        </td>
+                        <td class="px-6 py-4 text-center cursor-pointer text-slate-300 hover:text-red-500" onclick="removeServ(${i})">✕</td>
                     </tr>`;
-
-                auth.servicios.forEach((serv, servIdx) => {
-                    const neto = serv.bruto - serv.glosa;
-                    totalGeneral += neto;
-                    body.innerHTML += `
-                        <tr class="hover:bg-blue-50/30 transition">
-                            <td class="px-10 py-4 font-bold text-slate-600 text-[11px]">${serv.desc}</td>
-                            <td class="px-6 py-4 text-right font-medium text-slate-500">$ ${serv.bruto.toFixed(2)}</td>
-                            <td class="px-6 py-4 text-right">
-                                <input type="number" step="0.01" class="w-24 p-1 text-right border-b-2 border-red-200 focus:border-red-500 outline-none text-red-600 font-bold bg-transparent" 
-                                    value="${serv.glosa}" onchange="updateGlosa(${authIdx}, ${servIdx}, this.value)">
-                            </td>
-                            <td class="px-6 py-4 text-right font-black text-blue-600 italic">$ ${neto.toFixed(2)}</td>
-                            <td class="px-6 py-4">
-                                <select onchange="updateMotivo(${authIdx}, ${servIdx}, this.value)" class="text-[10px] font-black uppercase border rounded p-1 outline-none">
-                                    <option value="N/A" ${serv.motivo === 'N/A' ? 'selected':''}>SIN GLOSA</option>
-                                    <option value="TARIFA" ${serv.motivo === 'TARIFA' ? 'selected':''}>TARIFA INCORRECTA</option>
-                                    <option value="DOC" ${serv.motivo === 'DOC' ? 'selected':''}>DOC. INCOMPLETA</option>
-                                    <option value="DUP" ${serv.motivo === 'DUP' ? 'selected':''}>DUPLICADO</option>
-                                </select>
-                            </td>
-                            <td class="px-6 py-4 text-center cursor-pointer text-slate-300 hover:text-red-500" onclick="removeAuth(${authIdx})">✕</td>
-                        </tr>`;
-                });
             });
 
-            document.getElementById('total-cant').innerText = autorizaciones.length;
+            document.getElementById('total-cant').innerText = serviciosLote.length;
             document.getElementById('total-monto').innerText = `$ ${totalGeneral.toLocaleString()}`;
         }
 
-        function updateGlosa(aI, sI, val) {
+        function updateGlosa(i, val) {
             let n = parseFloat(val) || 0;
-            if (n > autorizaciones[aI].servicios[sI].bruto) n = autorizaciones[aI].servicios[sI].bruto;
-            autorizaciones[aI].servicios[sI].glosa = n;
+            if (n > serviciosLote[i].bruto) n = serviciosLote[i].bruto; // Validar que la glosa no sea mayor al bruto
+            serviciosLote[i].glosa = n;
             render();
         }
 
-        function updateMotivo(aI, sI, val) {
-            autorizaciones[aI].servicios[sI].motivo = val;
+        function updateMotivo(i, val) {
+            serviciosLote[i].motivo = val;
         }
 
-        function removeAuth(idx) {
-            autorizaciones.splice(idx, 1);
+        function removeServ(i) {
+            serviciosLote.splice(i, 1);
             render();
         }
 
         function finalizar() {
-            if(autorizaciones.length === 0) return Swal.fire('Error', 'Debe agregar al menos una autorización', 'error');
+            if(serviciosLote.length === 0) return Swal.fire('Error', 'Debe agregar al menos un servicio', 'error');
             Swal.fire('Éxito', 'Radicación enviada con éxito', 'success').then(() => location.reload());
         }
 
