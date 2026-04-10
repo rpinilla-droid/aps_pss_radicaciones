@@ -3,128 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Prestadores - SISALRIL</title>
-    <!-- Tailwind CSS para diseño -->
+    <title>Portal de Radicaciones - SISALRIL</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .hidden-section { display: none !important; }
-        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        .glass-header { background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen font-sans">
+<body class="bg-slate-100 min-h-screen font-sans text-slate-900">
 
-    <!-- SECCIÓN: LOGIN (Se muestra por defecto) -->
-    <div id="login-section" class="flex items-center justify-center min-h-screen p-4 bg-blue-900">
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold text-blue-900">Bienvenido</h2>
-                <p class="text-gray-500 italic">Ingrese su Código SISALRIL</p>
+    <!-- SECCIÓN 1: LOGIN PREMIUM -->
+    <div id="login-section" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-tr from-slate-900 via-blue-900 to-slate-900">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500">
+            <div class="bg-blue-600 p-8 text-center text-white">
+                <h1 class="text-4xl font-black tracking-tighter">SISALRIL</h1>
+                <p class="text-blue-100 text-sm mt-2 uppercase tracking-widest">Portal Prestadores</p>
             </div>
-            <div class="space-y-4">
+            <div class="p-8 space-y-5">
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase">Usuario (Código SISALRIL)</label>
-                    <input type="text" id="user-code" class="w-full mt-1 p-3 border-2 rounded-lg focus:border-blue-500 outline-none">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Código de Prestador</label>
+                    <input type="text" id="user-code" placeholder="Ej: 9" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none transition-colors">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase">Contraseña</label>
-                    <input type="password" id="user-pass" class="w-full mt-1 p-3 border-2 rounded-lg focus:border-blue-500 outline-none">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña Personal</label>
+                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none transition-colors">
                 </div>
-                <!-- Botón de Iniciar Sesión con lógica directa -->
-                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-lg active:scale-95">
-                    INICIAR SESIÓN
+                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition active:scale-95">
+                    INGRESAR AL SISTEMA
+                </button>
+                <button onclick="Swal.fire('Restablecer', 'Se ha enviado un enlace a su correo registrado.', 'info')" class="w-full text-xs text-slate-400 hover:text-blue-600 transition">
+                    ¿Olvidó su contraseña? Restablézcala aquí
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- SECCIÓN: PORTAL (Oculto por defecto) -->
-    <div id="portal-section" class="hidden-section p-4 lg:p-10">
-        <div class="max-w-7xl mx-auto space-y-6">
-            <!-- Barra de Usuario -->
-            <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center border-l-8 border-blue-600">
-                <div>
-                    <p class="text-xs text-gray-500 font-bold uppercase">Prestador Autenticado</p>
-                    <p id="display-prestador" class="text-lg font-bold text-gray-800"></p>
+    <!-- SECCIÓN 2: PORTAL DE RADICACIONES (DISEÑO ORIGINAL RECUPERADO) -->
+    <div id="portal-section" class="hidden-section pb-20">
+        <!-- Header Superior -->
+        <header class="glass-header sticky top-0 z-50 p-4 text-white shadow-xl">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="bg-blue-500 h-10 w-10 rounded-lg flex items-center justify-center font-bold text-xl">R</div>
+                    <div>
+                        <h2 class="font-bold leading-none">Recepción de Radicaciones</h2>
+                        <p class="text-[10px] text-blue-300 uppercase mt-1 tracking-widest" id="header-prestador"></p>
+                    </div>
                 </div>
-                <button onclick="location.reload()" class="text-red-500 font-bold text-sm">Cerrar Sesión 🚪</button>
+                <div class="flex items-center gap-6">
+                    <div class="text-right hidden md:block">
+                        <p class="text-[10px] text-slate-400 uppercase">Fecha Recepción</p>
+                        <p id="fecha-actual" class="text-sm font-mono"></p>
+                    </div>
+                    <button onclick="location.reload()" class="bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all">SALIR</button>
+                </div>
             </div>
+        </header>
 
-            <!-- Formulario de Radicación -->
-            <div class="bg-white rounded-2xl shadow-xl p-6 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-b pb-6">
-                    <div>
-                        <label class="block text-xs font-black text-gray-500">FECHA NCF</label>
-                        <input type="date" id="fecha-ncf" class="w-full p-2 border rounded">
+        <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+            <!-- Tarjeta de Datos NCF -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Fecha NCF</label>
+                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
                     </div>
-                    <div>
-                        <label class="block text-xs font-black text-gray-500">NÚMERO NCF</label>
-                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-2 border rounded">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Número NCF</label>
+                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-mono">
                     </div>
-                    <div>
-                        <label class="block text-xs font-black text-gray-500">CORREO RESUMEN</label>
-                        <input type="email" id="email-resumen" class="w-full p-2 border rounded">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Email para Resumen</label>
+                        <input type="email" id="email-resumen" placeholder="contacto@prestador.com" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                 </div>
+            </section>
 
-                <!-- Buscador -->
-                <div class="flex gap-2">
-                    <input type="text" id="search-autorizacion" placeholder="Ingrese Número Autorización..." class="flex-1 p-2 border-2 border-blue-100 rounded">
-                    <button onclick="buscarAutorizacion()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold">AGREGAR</button>
+            <!-- Buscador y Grilla -->
+            <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="p-6 bg-slate-50 border-b flex flex-col md:flex-row gap-4 items-end">
+                    <div class="flex-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">Búsqueda de Autorizaciones</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+                            <input type="text" id="search-autorizacion" placeholder="Ingrese número de autorización (Ej: 3674605)..." class="w-full pl-10 p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                    <button onclick="buscarAutorizacion()" class="bg-slate-900 text-white px-10 py-3.5 rounded-xl font-bold hover:bg-blue-600 transition shadow-lg">AGREGAR</button>
                 </div>
 
-                <!-- Grilla -->
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-100 uppercase">
-                            <tr>
-                                <th class="p-3 text-left">Aut.</th>
-                                <th class="p-3 text-left">Servicio</th>
-                                <th class="p-3 text-right">Monto</th>
-                                <th class="p-3 text-center">Glosa</th>
-                                <th class="p-3 text-left">Motivo</th>
-                                <th class="p-3 text-right">Total</th>
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-[10px] text-slate-500 uppercase tracking-widest border-b">
+                                <th class="p-4 text-left">N° Autorización</th>
+                                <th class="p-4 text-left">Descripción</th>
+                                <th class="p-4 text-right">Monto Bruto</th>
+                                <th class="p-4 text-center">Valor Glosa</th>
+                                <th class="p-4 text-left">Motivo Glosa</th>
+                                <th class="p-4 text-right">Monto Neto</th>
+                                <th class="p-4"></th>
                             </tr>
                         </thead>
-                        <tbody id="grilla-body"></tbody>
+                        <tbody id="grilla-body" class="divide-y divide-slate-100">
+                            <!-- Filas dinámicas -->
+                        </tbody>
                     </table>
                 </div>
 
-                <!-- Footer Totales -->
-                <div class="flex justify-between items-center bg-gray-50 p-6 rounded-xl">
-                    <div class="flex gap-8">
-                        <div><p class="text-xs font-bold">CANTIDAD</p><p id="total-cantidad" class="text-2xl font-bold">0</p></div>
-                        <div><p class="text-xs font-bold">TOTAL</p><p id="total-monto" class="text-2xl font-bold text-blue-700">$ 0.00</p></div>
+                <!-- Footer de Totales -->
+                <div class="p-8 bg-slate-900 text-white flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="flex gap-12">
+                        <div class="text-center md:text-left">
+                            <p class="text-[10px] text-blue-400 uppercase font-bold tracking-widest">Cantidad</p>
+                            <p id="total-cantidad" class="text-4xl font-black">0</p>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <p class="text-[10px] text-blue-400 uppercase font-bold tracking-widest">Monto Total</p>
+                            <p id="total-monto" class="text-4xl font-black">$ 0.00</p>
+                        </div>
                     </div>
-                    <button onclick="finalizar()" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold shadow-lg">GUARDAR</button>
+                    <button onclick="guardarRadicacion()" class="w-full md:w-auto bg-green-500 hover:bg-green-400 text-slate-900 px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition transform hover:-translate-y-1">
+                        GUARDAR RADICACIÓN
+                    </button>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
     <script>
         let autorizaciones = [];
 
-        // FUNCIÓN CLAVE: Lógica de entrada
         function handleLogin() {
             const user = document.getElementById('user-code').value;
             const pass = document.getElementById('user-pass').value;
 
-            // Validación simple para el mockup
-            if (user.trim() !== "" && pass.trim() !== "") {
-                document.getElementById('display-prestador').innerText = user + " - POLICLINICO UNION S R L";
+            if (user && pass) {
+                document.getElementById('header-prestador').innerText = `${user} - POLICLINICO UNION S R L`;
+                document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString('es-DO');
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('portal-section').classList.remove('hidden-section');
             } else {
-                alert("Por favor, ingrese Usuario y Contraseña");
+                Swal.fire('Error', 'Debe completar los campos de acceso', 'error');
             }
         }
 
         function buscarAutorizacion() {
-            const num = document.getElementById('search-autorizacion').value;
-            if(!num) return;
-            autorizaciones.push({ id: num, desc: "SALA DE URGENCIA", monto: 1250, glosa: 0 });
+            const input = document.getElementById('search-autorizacion');
+            if(!input.value) return;
+
+            autorizaciones.push({
+                id: input.value,
+                desc: "SALA DE EMERGENCIA / URGENCIA",
+                monto: (Math.random() * (2000 - 500) + 500).toFixed(2),
+                glosa: 0
+            });
+            input.value = '';
             render();
-            document.getElementById('search-autorizacion').value = '';
         }
 
         function updateGlosa(index, val) {
@@ -132,34 +168,69 @@
             render();
         }
 
+        function remove(index) {
+            autorizaciones.splice(index, 1);
+            render();
+        }
+
         function render() {
             const body = document.getElementById('grilla-body');
             body.innerHTML = '';
-            let total = 0;
-            autorizaciones.forEach((item, i) => {
+            let totalGeneral = 0;
+
+            autorizaciones.forEach((item, index) => {
                 const neto = item.monto - item.glosa;
-                total += neto;
+                totalGeneral += neto;
                 body.innerHTML += `
-                    <tr class="border-b">
-                        <td class="p-3 font-bold">${item.id}</td>
-                        <td class="p-3">${item.desc}</td>
-                        <td class="p-3 text-right">$${item.monto}</td>
-                        <td class="p-3 text-center"><input type="number" onchange="updateGlosa(${i}, this.value)" value="${item.glosa}" class="w-20 border text-center text-red-600"></td>
-                        <td class="p-3">
-                            <select class="border p-1 text-xs"><option>Pertinencia</option><option>Tarifa</option></select>
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-mono font-bold text-blue-600">${item.id}</td>
+                        <td class="p-4 text-xs text-slate-600">${item.desc}</td>
+                        <td class="p-4 text-right font-semibold">$ ${item.monto}</td>
+                        <td class="p-4 text-center">
+                            <input type="number" onchange="updateGlosa(${index}, this.value)" value="${item.glosa}" 
+                            class="w-24 p-2 border-2 rounded-lg text-center font-bold text-red-600 border-red-50 focus:border-red-500 outline-none bg-white">
                         </td>
-                        <td class="p-3 text-right font-bold">$${neto.toFixed(2)}</td>
-                    </tr>`;
+                        <td class="p-4">
+                            <select class="w-full p-2 bg-white border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="" disabled selected>Seleccionar Motivo...</option>
+                                <option value="Pertinencia">Pertinencia</option>
+                                <option value="Tarifa">Tarifa</option>
+                            </select>
+                        </td>
+                        <td class="p-4 text-right font-black text-slate-800">$ ${neto.toFixed(2)}</td>
+                        <td class="p-4 text-center">
+                            <button onclick="remove(${index})" class="text-slate-300 hover:text-red-500 transition">✕</button>
+                        </td>
+                    </tr>
+                `;
             });
             document.getElementById('total-cantidad').innerText = autorizaciones.length;
-            document.getElementById('total-monto').innerText = "$" + total.toFixed(2);
+            document.getElementById('total-monto').innerText = `$ ${totalGeneral.toLocaleString('es-DO', {minimumFractionDigits: 2})}`;
         }
 
-        function finalizar() {
+        function guardarRadicacion() {
             const ncf = document.getElementById('ncf').value;
-            if(!ncf || autorizaciones.length === 0) return alert("Faltan datos o autorizaciones");
-            alert("Radicación Guardada con Éxito. N°: " + Math.floor(Math.random()*900000));
-            location.reload();
+            const email = document.getElementById('email-resumen').value;
+            const fechaNcf = document.getElementById('fecha-ncf').value;
+
+            if(!ncf || !email || !fechaNcf || autorizaciones.length === 0) {
+                return Swal.fire('Faltan Datos', 'Complete NCF, Fecha, Email y agregue autorizaciones.', 'warning');
+            }
+
+            const radNum = Math.floor(Math.random() * 900000) + 100000;
+            const hoy = new Date();
+            const fEfec = new Date(hoy.setDate(hoy.getDate() + 180)).toLocaleDateString('es-DO');
+
+            Swal.fire({
+                title: 'Radicación Guardada',
+                html: `<div class="text-left space-y-2">
+                        <p><strong>Número:</strong> ${radNum}</p>
+                        <p><strong>Fecha Efectividad:</strong> ${fEfec}</p>
+                        <p class="text-xs text-slate-500 mt-4 italic">El resumen fue enviado a ${email}</p>
+                       </div>`,
+                icon: 'success',
+                confirmButtonText: 'Finalizar'
+            }).then(() => location.reload());
         }
     </script>
 </body>
