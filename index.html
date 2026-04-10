@@ -13,7 +13,7 @@
 </head>
 <body class="bg-[#0f172a] min-h-screen font-sans">
 
-    <!-- SECCIÓN 1: LOGIN (Restaurado) -->
+    <!-- LOGIN -->
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
         <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden text-slate-900">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
@@ -23,18 +23,18 @@
             <div class="p-10 space-y-6">
                 <div>
                     <label class="block text-[11px] font-black text-[#94a3b8] uppercase mb-2 tracking-wider ml-1">Código SISALRIL</label>
-                    <input type="text" id="user-code" placeholder="Ingrese su código" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none focus:border-blue-400 transition">
+                    <input type="text" id="user-code" placeholder="9" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-[11px] font-black text-[#94a3b8] uppercase mb-2 tracking-wider ml-1">Contraseña</label>
-                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none focus:border-blue-400 transition">
+                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none">
                 </div>
                 <button onclick="handleLogin()" class="w-full bg-[#2563eb] text-white font-bold py-4 rounded-[15px] shadow-lg uppercase text-sm tracking-widest hover:bg-blue-700 transition">Iniciar Sesión</button>
             </div>
         </div>
     </div>
 
-    <!-- SECCIÓN 2: PORTAL PRINCIPAL -->
+    <!-- PORTAL PRINCIPAL -->
     <div id="portal-section" class="hidden-section pb-20 bg-slate-100 min-h-screen text-slate-900">
         <header class="bg-[#1e293b] text-white shadow-xl">
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b border-slate-700">
@@ -54,7 +54,7 @@
         </header>
 
         <main class="max-w-7xl mx-auto p-8">
-            <!-- CONTENIDO: NUEVA RADICACIÓN -->
+            <!-- TAB: NUEVA RADICACIÓN -->
             <div id="tab-nueva" class="space-y-6">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-1">
@@ -81,26 +81,32 @@
 
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
+                        <table class="w-full text-sm text-left">
                             <thead>
                                 <tr class="bg-slate-50 text-[10px] text-slate-500 uppercase font-bold">
-                                    <th class="px-6 py-5 text-left">Autor.</th>
-                                    <th class="px-6 py-5 text-left">Nombre del Afiliado</th>
+                                    <th class="px-6 py-5">Autor.</th>
+                                    <th class="px-6 py-5">Nombre del Afiliado</th>
                                     <th class="px-6 py-5 text-right">Valor Autorización</th>
                                     <th class="px-6 py-5 text-right text-red-500">Glosa</th>
                                     <th class="px-6 py-5 text-right text-blue-600">A Pagar</th>
+                                    <th class="px-6 py-5">Glosas Aplicadas</th>
                                     <th class="px-6 py-5"></th>
                                 </tr>
                             </thead>
-                            <tbody id="lote-body" class="divide-y divide-slate-100 italic text-slate-400">
-                                <tr><td colspan="6" class="px-6 py-10 text-center">No hay autorizaciones agregadas al lote.</td></tr>
-                            </tbody>
+                            <tbody id="lote-body" class="divide-y divide-slate-100"></tbody>
                         </table>
+                    </div>
+                    <div class="p-8 bg-[#0f172a] text-white flex justify-between items-center">
+                        <div class="flex gap-12">
+                            <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Cant. Radicaciones</p><p id="total-cant" class="text-4xl font-black">0</p></div>
+                            <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Valor Neto Total</p><p id="total-monto" class="text-4xl font-black">$ 0.00</p></div>
+                        </div>
+                        <button onclick="finalizar()" class="bg-[#2ecc71] text-[#0f172a] px-12 py-5 rounded-2xl font-black text-xl hover:bg-[#27ae60] transition shadow-xl uppercase">Finalizar y Guardar</button>
                     </div>
                 </div>
             </div>
             
-            <!-- CONTENIDO: HISTORIAL / ESTADOS (Restaurado con estados y detalle) -->
+            <!-- TAB: HISTORIAL / ESTADOS -->
             <div id="tab-historial" class="hidden-section space-y-6">
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
@@ -121,36 +127,24 @@
                                     <td class="px-6 py-4 text-slate-500">2024-03-15</td>
                                     <td class="px-6 py-4 font-mono">E310000000110</td>
                                     <td class="px-6 py-4 text-right font-black">$ 145,200.00</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-green-200">Pagada</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button onclick="verDetalle('RAD-2024-001')" class="text-blue-500 hover:text-blue-700 font-bold text-[10px] uppercase underline decoration-2 underline-offset-4">Ver Detalle</button>
-                                    </td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-green-200">Pagada</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-001')" class="text-blue-500 hover:underline font-bold text-[10px] uppercase">Ver Detalle</button></td>
                                 </tr>
                                 <tr>
                                     <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-002</td>
                                     <td class="px-6 py-4 text-slate-500">2024-03-20</td>
                                     <td class="px-6 py-4 font-mono">E310000000115</td>
                                     <td class="px-6 py-4 text-right font-black">$ 42,150.00</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-blue-200">Aprobada</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button onclick="verDetalle('RAD-2024-002')" class="text-blue-500 hover:text-blue-700 font-bold text-[10px] uppercase underline decoration-2 underline-offset-4">Ver Detalle</button>
-                                    </td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-blue-200">Aprobada</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-002')" class="text-blue-500 hover:underline font-bold text-[10px] uppercase">Ver Detalle</button></td>
                                 </tr>
                                 <tr>
                                     <td class="px-6 py-4 font-bold text-blue-600">RAD-2024-003</td>
                                     <td class="px-6 py-4 text-slate-500">2024-03-25</td>
                                     <td class="px-6 py-4 font-mono">E310000000120</td>
                                     <td class="px-6 py-4 text-right font-black">$ 89,300.00</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-amber-200">En Revisión</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button onclick="verDetalle('RAD-2024-003')" class="text-blue-500 hover:text-blue-700 font-bold text-[10px] uppercase underline decoration-2 underline-offset-4">Ver Detalle</button>
-                                    </td>
+                                    <td class="px-6 py-4 text-center"><span class="bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-amber-200">En Revisión</span></td>
+                                    <td class="px-6 py-4 text-center"><button onclick="verDetalle('RAD-2024-003')" class="text-blue-500 hover:underline font-bold text-[10px] uppercase">Ver Detalle</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -161,6 +155,8 @@
     </div>
 
     <script>
+        let items = [];
+
         function handleLogin() {
             const user = document.getElementById('user-code').value;
             if (user) {
@@ -168,7 +164,7 @@
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('portal-section').classList.remove('hidden-section');
             } else {
-                Swal.fire('Error', 'Ingrese su código de prestador', 'error');
+                Swal.fire('Error', 'Ingrese su código', 'error');
             }
         }
 
@@ -179,23 +175,58 @@
             document.getElementById('nav-historial').className = tab === 'historial' ? "py-4 text-xs font-black uppercase tracking-widest nav-active" : "py-4 text-xs font-black uppercase tracking-widest text-slate-400";
         }
 
-        function verDetalle(id) {
-            Swal.fire({
-                title: `<span class="text-sm uppercase font-black">Detalle: ${id}</span>`,
-                html: `<div class="text-left text-xs space-y-2 p-4 bg-slate-50 rounded-xl border">
-                        <p><strong>NCF:</strong> E310000000110</p>
-                        <p><strong>Afiliado:</strong> JUNIEL ABREU MARTE</p>
-                        <hr>
-                        <p class="font-bold text-blue-600">Monto Aprobado: $ 8,067.33</p>
-                       </div>`,
-                confirmButtonText: 'CERRAR',
-                confirmButtonColor: '#1e293b'
-            });
+        function buscarAuth() {
+            const val = document.getElementById('search-input').value;
+            if (val) {
+                items.push({ id: val, nombre: 'JUNIEL ABREU MARTE', bruto: 8067.33, glosa: 0, neto: 8067.33, motivo: 'N/A' });
+                render();
+                document.getElementById('search-input').value = '';
+            }
         }
 
-        function buscarAuth() {
-            // Lógica de búsqueda simplificada
-            Swal.fire('Info', 'Función de búsqueda activa para autorizaciones.', 'info');
+        function render() {
+            const b = document.getElementById('lote-body');
+            b.innerHTML = '';
+            let total = 0;
+            items.forEach((it, i) => {
+                total += it.neto;
+                b.innerHTML += `
+                    <tr>
+                        <td class="px-6 py-4 font-mono font-bold text-blue-600">${it.id}</td>
+                        <td class="px-6 py-4 font-bold uppercase text-[11px]">${it.nombre}</td>
+                        <td class="px-6 py-4 text-right font-medium">$ ${it.bruto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right text-red-500 font-bold">$ ${it.glosa.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right text-blue-600 font-black">$ ${it.neto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-[10px] font-bold text-slate-400 italic">${it.motivo}</td>
+                        <td class="px-6 py-4 text-center cursor-pointer font-bold text-slate-300 hover:text-red-500" onclick="items.splice(${i},1);render()">✕</td>
+                    </tr>`;
+            });
+            document.getElementById('total-cant').innerText = items.length;
+            document.getElementById('total-monto').innerText = `$ ${total.toLocaleString()}`;
+        }
+
+        function finalizar() {
+            const f = document.getElementById('fecha-ncf').value;
+            const n = document.getElementById('ncf').value;
+            const e = document.getElementById('email-resumen').value;
+            if (!f || !n || !e || items.length === 0) {
+                Swal.fire('Incompleto', 'Complete los campos y agregue autorizaciones.', 'warning');
+            } else {
+                Swal.fire('Éxito', 'Radicación enviada correctamente.', 'success').then(() => location.reload());
+            }
+        }
+
+        function verDetalle(id) {
+            Swal.fire({
+                title: `<span class="text-sm font-black uppercase">Detalle ${id}</span>`,
+                html: `<div class="text-left text-xs p-4 bg-slate-50 rounded-xl space-y-2">
+                        <p><strong>Estado:</strong> Procesado</p>
+                        <p><strong>NCF:</strong> E310000000110</p>
+                        <hr>
+                        <div class="flex justify-between font-bold"><span>Total:</span><span>$ 145,200.00</span></div>
+                       </div>`,
+                confirmButtonColor: '#1e293b'
+            });
         }
     </script>
 </body>
