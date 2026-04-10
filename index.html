@@ -18,17 +18,17 @@
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
         <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
-                <h1 class="text-4xl font-black mb-1">APS-ARS</h1>
+                <h1 class="text-4xl font-black mb-1">SISALRIL</h1>
                 <p class="text-[11px] font-bold uppercase tracking-widest">Portal Prestadores</p>
             </div>
             <div class="p-10 space-y-6">
                 <div>
                     <label class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1">Código SISALRIL</label>
-                    <input type="text" id="user-code" placeholder="9" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none">
+                    <input type="text" id="user-code" placeholder="9" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none focus:border-blue-500 transition">
                 </div>
                 <div>
                     <label class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1">Contraseña</label>
-                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none">
+                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 border border-slate-200 rounded-[15px] outline-none focus:border-blue-500 transition">
                 </div>
                 <button onclick="handleLogin()" class="w-full bg-[#2563eb] text-white font-bold py-4 rounded-[15px] shadow-lg uppercase text-sm tracking-widest hover:bg-blue-700 transition">Iniciar Sesión</button>
             </div>
@@ -61,15 +61,15 @@
                 <div class="bg-white rounded-2xl shadow-sm border p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha NCF</label>
-                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl outline-none">
+                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-blue-500">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Número NCF</label>
-                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl outline-none font-mono uppercase">
+                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl outline-none font-mono uppercase focus:border-blue-500">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Correo Resumen</label>
-                        <input type="email" id="email-resumen" placeholder="admin@poliunion.do" class="w-full p-3 bg-slate-50 border rounded-xl outline-none">
+                        <input type="email" id="email-resumen" placeholder="admin@poliunion.do" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-blue-500">
                     </div>
                 </div>
 
@@ -100,12 +100,12 @@
                             <tbody id="lote-body" class="divide-y divide-slate-50"></tbody>
                         </table>
                     </div>
-                    <div class="p-8 bg-[#0f172a] text-white flex justify-between items-center">
+                    <div class="p-8 bg-[#0f172a] text-white flex flex-col md:flex-row justify-between items-center gap-6">
                         <div class="flex gap-12">
                             <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Cant. Radicaciones</p><p id="total-cant" class="text-4xl font-black">0</p></div>
                             <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Valor Neto Total</p><p id="total-monto" class="text-4xl font-black">$ 0.00</p></div>
                         </div>
-                        <button onclick="guardarTodo()" class="bg-[#2ecc71] hover:bg-[#27ae60] text-slate-900 px-12 py-5 rounded-2xl font-black text-xl uppercase">FINALIZAR Y GUARDAR</button>
+                        <button onclick="guardarTodo()" class="bg-[#2ecc71] hover:bg-[#27ae60] text-slate-900 px-12 py-5 rounded-2xl font-black text-xl uppercase shadow-xl transition transform hover:-translate-y-1">FINALIZAR Y GUARDAR</button>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <!-- PESTAÑA HISTORIAL -->
             <div id="tab-historial" class="hidden-section">
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                    <div class="p-6 border-b bg-slate-50 flex justify-between items-center">
+                    <div class="p-6 border-b bg-slate-50">
                         <h3 class="text-[11px] font-black text-slate-500 uppercase tracking-widest">Listado de Radicaciones Enviadas</h3>
                     </div>
                     <div class="overflow-x-auto">
@@ -132,7 +132,7 @@
                                     <td class="px-6 py-4 font-black text-blue-600 underline">RAD-582934</td>
                                     <td class="px-6 py-4 text-slate-500">03/04/2026</td>
                                     <td class="px-6 py-4 font-mono text-xs uppercase">E310000000187</td>
-                                    <td class="px-6 py-4 text-right font-bold">$ 28,191.32</td>
+                                    <td class="px-6 py-4 text-right font-bold">$ 30,869.32</td>
                                     <td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[9px] font-black uppercase">Pagada</span></td>
                                 </tr>
                                 <tr class="hover:bg-blue-50 transition cursor-pointer font-medium" onclick="verDetalleRadicacion('RAD-912832', 'Aprobada')">
@@ -157,53 +157,9 @@
         </main>
     </div>
 
-    <!-- MODAL DETALLE CONSOLIDADO (HISTORIAL) -->
-    <div id="modal-detalle-final" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm text-slate-900">
+    <!-- MODAL AUDITORÍA (AL AGREGAR AL LOTE) -->
+    <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm text-slate-900">
         <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
-            <div class="bg-[#1e3a8a] p-4 text-white flex justify-between items-center">
-                <h2 class="font-bold text-lg uppercase tracking-tight">Detalle de Radicación: <span id="det-id-rad" class="text-yellow-400"></span></h2>
-                <button onclick="document.getElementById('modal-detalle-final').classList.add('hidden-section')" class="text-2xl hover:text-red-400 transition">✕</button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-8">
-                <div class="grid grid-cols-3 gap-4 pb-6 border-b border-slate-100">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
-                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Revisión (180 días)</p><p id="det-fecha-rev" class="font-bold text-slate-700 text-xs"></p></div>
-                    </div>
-                    <div class="flex items-start gap-3 border-l border-slate-100 pl-4">
-                        <div id="circulo-2" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</div>
-                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aprobación</p><p id="det-fecha-aprob" class="font-bold text-slate-700 text-xs"></p></div>
-                    </div>
-                    <div class="flex items-start gap-3 border-l border-slate-100 pl-4">
-                        <div id="circulo-3" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</div>
-                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha de Pago</p><p id="det-fecha-pago" class="font-bold text-slate-700 text-xs"></p></div>
-                    </div>
-                </div>
-                <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                    <table class="w-full text-xs">
-                        <thead class="bg-[#1e293b] text-white uppercase text-[9px] tracking-wider">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Autor.</th>
-                                <th class="px-4 py-3 text-left">Nombre del Afiliado</th>
-                                <th class="px-4 py-3 text-right">Valor Autorización</th>
-                                <th class="px-4 py-3 text-right text-red-300">Glosa</th>
-                                <th class="px-4 py-3 text-right text-blue-300">A Pagar</th>
-                                <th class="px-4 py-3 text-left">Glosas Aplicadas</th>
-                            </tr>
-                        </thead>
-                        <tbody id="det-tabla-body" class="divide-y text-slate-700"></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="p-6 bg-slate-50 border-t flex justify-end">
-                <button onclick="document.getElementById('modal-detalle-final').classList.add('hidden-section')" class="px-10 py-3 bg-slate-900 text-white rounded-xl font-black uppercase text-[10px]">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL AUDITORÍA (AGREGAR AL LOTE) -->
-    <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col text-slate-900">
             <div class="bg-[#1e3a8a] p-4 text-white flex justify-between items-center">
                 <h2 class="font-bold text-lg uppercase tracking-tight">Auditoría: <span id="modal-num-auth" class="text-yellow-400 font-mono"></span></h2>
                 <button onclick="cerrarModal()" class="text-2xl hover:text-red-400 transition">✕</button>
@@ -230,7 +186,54 @@
             </div>
             <div class="p-6 bg-slate-50 border-t flex justify-end gap-4">
                 <button onclick="cerrarModal()" class="px-6 py-3 font-bold text-slate-400 uppercase text-xs">Cancelar</button>
-                <button onclick="confirmarAgregarAlLote()" class="px-10 py-3 bg-blue-700 text-white rounded-xl font-black uppercase text-[10px] shadow-lg">Adicionar al Lote</button>
+                <button onclick="confirmarAgregarAlLote()" class="px-10 py-3 bg-blue-700 text-white rounded-xl font-black uppercase text-[10px] shadow-lg hover:bg-blue-800 transition">Adicionar al Lote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE DE RADICACIÓN CONSOLIDADO (HISTORIAL) -->
+    <div id="modal-detalle-final" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm text-slate-900">
+        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
+            <div class="bg-[#1e3a8a] p-4 text-white flex justify-between items-center">
+                <h2 class="font-bold text-lg uppercase tracking-tight">Detalle de Radicación: <span id="det-id-rad" class="text-yellow-400"></span></h2>
+                <button onclick="document.getElementById('modal-detalle-final').classList.add('hidden-section')" class="text-2xl hover:text-red-400 transition">✕</button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-8">
+                <!-- LÍNEA DE TIEMPO -->
+                <div class="grid grid-cols-3 gap-4 pb-6 border-b border-slate-100">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Revisión (180 días)</p><p id="det-fecha-rev" class="font-bold text-slate-700 text-xs"></p></div>
+                    </div>
+                    <div class="flex items-start gap-3 border-l border-slate-100 pl-4">
+                        <div id="circulo-2" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aprobación</p><p id="det-fecha-aprob" class="font-bold text-slate-700 text-xs"></p></div>
+                    </div>
+                    <div class="flex items-start gap-3 border-l border-slate-100 pl-4">
+                        <div id="circulo-3" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0">3</div>
+                        <div><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha de Pago</p><p id="det-fecha-pago" class="font-bold text-slate-700 text-xs"></p></div>
+                    </div>
+                </div>
+                
+                <!-- TABLA DETALLE DE RECLAMACIONES -->
+                <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                    <table class="w-full text-xs">
+                        <thead class="bg-[#1e293b] text-white uppercase text-[9px] tracking-wider">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Autor.</th>
+                                <th class="px-4 py-3 text-left">Nombre del Afiliado</th>
+                                <th class="px-4 py-3 text-right">Valor Autorización</th>
+                                <th class="px-4 py-3 text-right text-red-300">Glosa</th>
+                                <th class="px-4 py-3 text-right text-blue-300">A Pagar</th>
+                                <th class="px-4 py-3 text-left">Glosas Aplicadas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="det-tabla-body" class="divide-y text-slate-700"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="p-6 bg-slate-50 border-t flex justify-end">
+                <button onclick="document.getElementById('modal-detalle-final').classList.add('hidden-section')" class="px-10 py-3 bg-slate-900 text-white rounded-xl font-black uppercase text-[10px]">Cerrar</button>
             </div>
         </div>
     </div>
@@ -238,14 +241,15 @@
     <script>
         let lote = [];
         let authActual = null;
+        let prestadorNombreActual = "POLICLINICO UNION S R L";
 
         function handleLogin() {
             const user = document.getElementById('user-code').value;
             if (user) {
-                document.getElementById('header-prestador').innerText = `${user} - POLICLINICO UNION S R L`;
+                document.getElementById('header-prestador').innerText = `${user} - ${prestadorNombreActual}`;
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('portal-section').classList.remove('hidden-section');
-            } else { Swal.fire('Error', 'Ingrese código.', 'error'); }
+            } else { Swal.fire('Atención', 'Ingrese sus credenciales.', 'warning'); }
         }
 
         function showTab(tab) {
@@ -261,6 +265,7 @@
             const num = document.getElementById('search-input').value;
             if(!num) return;
             document.getElementById('modal-num-auth').innerText = num;
+            document.getElementById('modal-afiliado').innerText = "JUNIEL ABREU MARTE";
             authActual = { id: num, afiliado: "JUNIEL ABREU MARTE", servicios: [
                 { desc: "CONSULTA EN EMERGENCIA", monto: 800.00, glosa: 0, motivo: "", comentario: "" },
                 { desc: "SALA DE EMERGENCIA Y/O URGENCIA", monto: 15534.66, glosa: 0, motivo: "", comentario: "" }
@@ -297,7 +302,7 @@
             lote.forEach((it, i) => {
                 total += it.neto;
                 b.innerHTML += `
-                    <tr class="hover:bg-blue-50/50 transition text-slate-700">
+                    <tr class="hover:bg-blue-50/50 transition text-slate-700 font-medium">
                         <td class="px-6 py-4 font-mono font-bold text-blue-600">${it.id}</td>
                         <td class="px-6 py-4 font-bold uppercase text-[11px]">${it.afiliado}</td>
                         <td class="px-6 py-4 text-right font-bold text-slate-500">$ ${it.bruto.toLocaleString()}</td>
@@ -311,7 +316,7 @@
             document.getElementById('total-monto').innerText = `$ ${total.toLocaleString()}`;
         }
 
-        // --- VALIDACIÓN DE CAMPOS OBLIGATORIOS RESTAURADA ---
+        // VALIDACIÓN DE CAMPOS OBLIGATORIOS
         function guardarTodo() {
             const fecha = document.getElementById('fecha-ncf').value;
             const ncf = document.getElementById('ncf').value;
@@ -331,9 +336,17 @@
                 title: '¡Lote Guardado!', 
                 html: `<div class="py-4"><p class="text-3xl font-black text-blue-600">${numRad}</p></div>`, 
                 icon: 'success' 
-            }).then(() => location.reload());
+            }).then(() => {
+                // Limpiar los campos y el lote sin recargar la página entera
+                document.getElementById('fecha-ncf').value = '';
+                document.getElementById('ncf').value = '';
+                document.getElementById('email-resumen').value = '';
+                lote = [];
+                renderLote();
+            });
         }
 
+        // MOSTRAR DETALLE EN HISTORIAL (INCLUYENDO AMBAS AUTORIZACIONES)
         function verDetalleRadicacion(id, estado) {
             document.getElementById('det-id-rad').innerText = id;
             const fechas = {
@@ -357,6 +370,14 @@
                     <td class="px-4 py-3 text-right font-bold text-red-500">$ 1,300.00</td>
                     <td class="px-4 py-3 text-right font-black text-blue-700">$ 15,034.66</td>
                     <td class="px-4 py-3 italic font-bold text-slate-400">Pertinencia, Tarifa</td>
+                </tr>
+                <tr>
+                    <td class="px-4 py-3 font-mono font-bold text-blue-600">3729196</td>
+                    <td class="px-4 py-3 font-bold uppercase">JUNIEL ABREU MARTE</td>
+                    <td class="px-4 py-3 text-right font-bold">$ 16,334.66</td>
+                    <td class="px-4 py-3 text-right font-bold text-red-500">$ 500.00</td>
+                    <td class="px-4 py-3 text-right font-black text-blue-700">$ 15,834.66</td>
+                    <td class="px-4 py-3 italic font-bold text-slate-400">Tarifa</td>
                 </tr>
             `;
             document.getElementById('modal-detalle-final').classList.remove('hidden-section');
