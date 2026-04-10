@@ -9,227 +9,301 @@
     <style>
         .hidden-section { display: none !important; }
         .glass-header { background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); }
+        .modal-active { overflow: hidden; }
+        /* Estilo para imitar la grilla de la imagen */
+        .grid-header { background-color: #a3c1e0; color: #000; font-weight: bold; border: 1px solid #7a96b3; }
+        .grid-row { border: 1px solid #d1d1d1; }
+        .grid-row:nth-child(even) { background-color: #f2f7ff; }
+        .grid-cell { border-right: 1px solid #d1d1d1; padding: 4px 8px; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-900">
 
-    <!-- SECCIÓN 1: LOGIN PREMIUM -->
-    <div id="login-section" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-tr from-slate-900 via-blue-900 to-slate-900">
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500">
-            <div class="bg-blue-600 p-8 text-center text-white">
-                <h1 class="text-4xl font-black tracking-tighter">SISALRIL</h1>
-                <p class="text-blue-100 text-sm mt-2 uppercase tracking-widest">Portal Prestadores</p>
+    <!-- SECCIÓN 1: LOGIN -->
+    <div id="login-section" class="flex items-center justify-center min-h-screen p-4 bg-slate-900">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-blue-700 p-8 text-center text-white">
+                <h1 class="text-3xl font-black">SISALRIL</h1>
+                <p class="text-blue-100 text-xs mt-1 uppercase tracking-widest">Portal de Autogestión</p>
             </div>
             <div class="p-8 space-y-5">
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Código de Prestador</label>
-                    <input type="text" id="user-code" placeholder="Ej: 9" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none transition-colors">
+                    <label class="block text-xs font-bold text-slate-500 mb-1">CÓDIGO SISALRIL</label>
+                    <input type="text" id="user-code" placeholder="Ej: 9" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Contraseña Personal</label>
-                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none transition-colors">
+                    <label class="block text-xs font-bold text-slate-500 mb-1">CONTRASEÑA</label>
+                    <input type="password" id="user-pass" placeholder="••••••••" class="w-full p-3 border-2 rounded-xl focus:border-blue-500 outline-none">
                 </div>
-                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition active:scale-95">
-                    INGRESAR AL SISTEMA
-                </button>
-                <button onclick="Swal.fire('Restablecer', 'Se ha enviado un enlace a su correo registrado.', 'info')" class="w-full text-xs text-slate-400 hover:text-blue-600 transition">
-                    ¿Olvidó su contraseña? Restablézcala aquí
-                </button>
+                <button onclick="handleLogin()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transition active:scale-95">INGRESAR</button>
             </div>
         </div>
     </div>
 
-    <!-- SECCIÓN 2: PORTAL DE RADICACIONES (DISEÑO ORIGINAL RECUPERADO) -->
+    <!-- SECCIÓN 2: PORTAL -->
     <div id="portal-section" class="hidden-section pb-20">
-        <!-- Header Superior -->
-        <header class="glass-header sticky top-0 z-50 p-4 text-white shadow-xl">
+        <header class="glass-header sticky top-0 z-40 p-4 text-white shadow-xl">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="flex items-center gap-4">
-                    <div class="bg-blue-500 h-10 w-10 rounded-lg flex items-center justify-center font-bold text-xl">R</div>
-                    <div>
-                        <h2 class="font-bold leading-none">Recepción de Radicaciones</h2>
-                        <p class="text-[10px] text-blue-300 uppercase mt-1 tracking-widest" id="header-prestador"></p>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg font-bold">R</div>
+                    <h2 class="font-bold text-sm md:text-base" id="header-prestador"></h2>
                 </div>
-                <div class="flex items-center gap-6">
-                    <div class="text-right hidden md:block">
-                        <p class="text-[10px] text-slate-400 uppercase">Fecha Recepción</p>
-                        <p id="fecha-actual" class="text-sm font-mono"></p>
-                    </div>
-                    <button onclick="location.reload()" class="bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all">SALIR</button>
-                </div>
+                <button onclick="location.reload()" class="text-xs font-bold text-red-400 border border-red-400/30 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition">SALIR</button>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
-            <!-- Tarjeta de Datos NCF -->
-            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase">Fecha NCF</label>
-                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase">Número NCF</label>
-                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-mono">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase">Email para Resumen</label>
-                        <input type="email" id="email-resumen" placeholder="contacto@prestador.com" class="w-full p-3 bg-slate-50 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
-                    </div>
+        <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
+            <!-- Datos Fiscales -->
+            <div class="bg-white rounded-xl shadow-sm border p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase">Fecha NCF</label>
+                    <input type="date" id="fecha-ncf" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg outline-none">
                 </div>
-            </section>
-
-            <!-- Buscador y Grilla -->
-            <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div class="p-6 bg-slate-50 border-b flex flex-col md:flex-row gap-4 items-end">
-                    <div class="flex-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-2 block">Búsqueda de Autorizaciones</label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
-                            <input type="text" id="search-autorizacion" placeholder="Ingrese número de autorización (Ej: 3674605)..." class="w-full pl-10 p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
-                        </div>
-                    </div>
-                    <button onclick="buscarAutorizacion()" class="bg-slate-900 text-white px-10 py-3.5 rounded-xl font-bold hover:bg-blue-600 transition shadow-lg">AGREGAR</button>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase">Número NCF</label>
+                    <input type="text" id="ncf" placeholder="E310000000187" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg outline-none font-mono uppercase">
                 </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase">Correo Notificación</label>
+                    <input type="email" id="email-resumen" placeholder="email@ejemplo.com" class="w-full mt-1 p-2 bg-slate-50 border rounded-lg outline-none">
+                </div>
+            </div>
 
+            <!-- Buscador -->
+            <div class="bg-white rounded-xl shadow-sm border p-6 space-y-4">
+                <h3 class="font-bold text-slate-700 flex items-center gap-2">🔍 Búsqueda de Autorizaciones</h3>
+                <div class="flex gap-2">
+                    <input type="text" id="search-input" placeholder="Ingrese N° Autorización..." class="flex-1 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="abrirModalAutorizacion()" class="bg-slate-800 text-white px-8 rounded-xl font-bold hover:bg-blue-600 transition shadow-md">BUSCAR</button>
+                </div>
+            </div>
+
+            <!-- Grilla Principal (Estilo Mantenimiento Lotes) -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-slate-300">
+                <div class="p-2 bg-slate-200 border-b font-bold text-slate-700 text-[11px] uppercase tracking-wider">Reclamaciones Agregadas</div>
                 <div class="overflow-x-auto">
-                    <table class="w-full border-collapse">
+                    <table class="w-full text-[12px] border-collapse">
                         <thead>
-                            <tr class="bg-slate-100 text-[10px] text-slate-500 uppercase tracking-widest border-b">
-                                <th class="p-4 text-left">N° Autorización</th>
-                                <th class="p-4 text-left">Descripción</th>
-                                <th class="p-4 text-right">Monto Bruto</th>
-                                <th class="p-4 text-center">Valor Glosa</th>
-                                <th class="p-4 text-left">Motivo Glosa</th>
-                                <th class="p-4 text-right">Monto Neto</th>
-                                <th class="p-4"></th>
+                            <tr class="grid-header">
+                                <th class="grid-cell text-left font-bold">Autor.</th>
+                                <th class="grid-cell text-left font-bold">Nombre del Afiliado</th>
+                                <th class="grid-cell text-right font-bold">A Pagar</th>
+                                <th class="grid-cell text-right font-bold">Glosa</th>
+                                <th class="grid-cell text-left font-bold">Tipos de glosas aplicadas</th>
+                                <th class="grid-cell text-center font-bold" style="width: 40px;"></th>
                             </tr>
                         </thead>
-                        <tbody id="grilla-body" class="divide-y divide-slate-100">
-                            <!-- Filas dinámicas -->
+                        <tbody id="lote-body">
+                            <!-- Filas generadas por JS -->
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Footer de Totales -->
-                <div class="p-8 bg-slate-900 text-white flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div class="flex gap-12">
-                        <div class="text-center md:text-left">
-                            <p class="text-[10px] text-blue-400 uppercase font-bold tracking-widest">Cantidad</p>
-                            <p id="total-cantidad" class="text-4xl font-black">0</p>
-                        </div>
-                        <div class="text-center md:text-left">
-                            <p class="text-[10px] text-blue-400 uppercase font-bold tracking-widest">Monto Total</p>
-                            <p id="total-monto" class="text-4xl font-black">$ 0.00</p>
-                        </div>
+                <!-- Resumen Final -->
+                <div class="p-6 bg-slate-900 text-white flex justify-between items-center">
+                    <div class="flex gap-10">
+                        <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Cant. Radicaciones</p><p id="total-cant" class="text-3xl font-black">0</p></div>
+                        <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Valor Neto Total</p><p id="total-monto" class="text-3xl font-black">$ 0.00</p></div>
                     </div>
-                    <button onclick="guardarRadicacion()" class="w-full md:w-auto bg-green-500 hover:bg-green-400 text-slate-900 px-12 py-5 rounded-2xl font-black text-xl shadow-2xl transition transform hover:-translate-y-1">
-                        GUARDAR RADICACIÓN
-                    </button>
+                    <button onclick="guardarTodo()" class="bg-green-500 text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-green-400 shadow-xl transition active:scale-95">FINALIZAR Y GUARDAR</button>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
 
-    <script>
-        let autorizaciones = [];
+    <!-- MODAL: AUTORIZACIONES TELEFÓNICAS -->
+    <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
+            <div class="bg-blue-800 p-4 text-white flex justify-between items-center">
+                <h2 class="font-bold flex items-center gap-2">📋 Detalle de Autorización: <span id="modal-num-auth" class="font-mono text-yellow-400"></span></h2>
+                <button onclick="cerrarModal()" class="text-2xl font-light hover:text-red-400">✕</button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto space-y-6">
+                <!-- Info Afiliado (Simulando cabecera de la imagen) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-blue-50 p-4 rounded-xl border border-blue-100 border-l-4 border-l-blue-500">
+                    <div class="text-sm">
+                        <p class="text-[10px] font-bold text-blue-500 uppercase tracking-tighter">Afiliado</p>
+                        <p class="font-bold text-slate-800 text-base" id="modal-afiliado">JUNIEL ABREU MARTE</p>
+                    </div>
+                    <div class="text-sm">
+                        <p class="text-[10px] font-bold text-blue-500 uppercase tracking-tighter">Prestador Solicitante</p>
+                        <p class="font-semibold text-slate-600">CENTRO MEDICO MARIA DOLORES C POR A</p>
+                    </div>
+                </div>
 
+                <!-- Tabla de Servicios -->
+                <div class="border rounded-lg overflow-hidden shadow-sm">
+                    <table class="w-full text-xs">
+                        <thead class="bg-slate-800 text-white uppercase text-[10px]">
+                            <tr>
+                                <th class="p-3 text-left">Descripción del Servicio</th>
+                                <th class="p-3 text-right">Precio Bruto</th>
+                                <th class="p-3 text-center" style="width: 120px;">Valor Glosa (RD$)</th>
+                                <th class="p-3 text-left">Motivo Glosa</th>
+                                <th class="p-3 text-left">Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-servicios-body" class="divide-y">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 border-t flex justify-end gap-3">
+                <button onclick="cerrarModal()" class="px-6 py-2 text-slate-500 font-bold hover:text-slate-800">CANCELAR</button>
+                <button onclick="confirmarAgregarAlLote()" class="px-8 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 shadow-lg">ADICIONAR AL LOTE</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lote = [];
+        let authActual = null;
+
+        // LOGIN
         function handleLogin() {
             const user = document.getElementById('user-code').value;
             const pass = document.getElementById('user-pass').value;
-
-            if (user && pass) {
+            if(user && pass) {
                 document.getElementById('header-prestador').innerText = `${user} - POLICLINICO UNION S R L`;
-                document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString('es-DO');
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('portal-section').classList.remove('hidden-section');
             } else {
-                Swal.fire('Error', 'Debe completar los campos de acceso', 'error');
+                Swal.fire('Atención', 'Ingrese sus credenciales.', 'warning');
             }
         }
 
-        function buscarAutorizacion() {
-            const input = document.getElementById('search-autorizacion');
-            if(!input.value) return;
+        // FLUJO DE AUTORIZACIÓN
+        function abrirModalAutorizacion() {
+            const num = document.getElementById('search-input').value;
+            if(!num) return;
 
-            autorizaciones.push({
-                id: input.value,
-                desc: "SALA DE EMERGENCIA / URGENCIA",
-                monto: (Math.random() * (2000 - 500) + 500).toFixed(2),
-                glosa: 0
-            });
-            input.value = '';
-            render();
-        }
+            document.getElementById('modal-num-auth').innerText = num;
+            
+            // Mock de datos para el modal
+            authActual = {
+                id: num,
+                afiliado: "JUNIEL ABREU MARTE", // Nombre dinámico para la grilla
+                servicios: [
+                    { desc: "CONSULTA EN EMERGENCIA", monto: 800.00, glosa: 0, motivo: "", comentario: "" },
+                    { desc: "SALA DE EMERGENCIA Y/O URGENCIA", monto: 15534.66, glosa: 0, motivo: "", comentario: "" }
+                ]
+            };
 
-        function updateGlosa(index, val) {
-            autorizaciones[index].glosa = parseFloat(val) || 0;
-            render();
-        }
-
-        function remove(index) {
-            autorizaciones.splice(index, 1);
-            render();
-        }
-
-        function render() {
-            const body = document.getElementById('grilla-body');
+            const body = document.getElementById('modal-servicios-body');
             body.innerHTML = '';
-            let totalGeneral = 0;
-
-            autorizaciones.forEach((item, index) => {
-                const neto = item.monto - item.glosa;
-                totalGeneral += neto;
+            authActual.servicios.forEach((s, i) => {
                 body.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-4 font-mono font-bold text-blue-600">${item.id}</td>
-                        <td class="p-4 text-xs text-slate-600">${item.desc}</td>
-                        <td class="p-4 text-right font-semibold">$ ${item.monto}</td>
-                        <td class="p-4 text-center">
-                            <input type="number" onchange="updateGlosa(${index}, this.value)" value="${item.glosa}" 
-                            class="w-24 p-2 border-2 rounded-lg text-center font-bold text-red-600 border-red-50 focus:border-red-500 outline-none bg-white">
+                    <tr>
+                        <td class="p-3 font-semibold text-slate-700">${s.desc}</td>
+                        <td class="p-3 text-right font-mono">$ ${s.monto.toLocaleString()}</td>
+                        <td class="p-3">
+                            <input type="number" onchange="updateAuthService(${i}, 'glosa', this.value)" 
+                            class="w-full p-1 border-2 border-slate-100 rounded text-center text-red-600 font-bold focus:border-red-400 outline-none" placeholder="0.00">
                         </td>
-                        <td class="p-4">
-                            <select class="w-full p-2 bg-white border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="" disabled selected>Seleccionar Motivo...</option>
+                        <td class="p-3">
+                            <select onchange="updateAuthService(${i}, 'motivo', this.value)" class="w-full p-1 border rounded bg-white text-[10px]">
+                                <option value="">Seleccionar...</option>
                                 <option value="Pertinencia">Pertinencia</option>
                                 <option value="Tarifa">Tarifa</option>
                             </select>
                         </td>
-                        <td class="p-4 text-right font-black text-slate-800">$ ${neto.toFixed(2)}</td>
-                        <td class="p-4 text-center">
-                            <button onclick="remove(${index})" class="text-slate-300 hover:text-red-500 transition">✕</button>
+                        <td class="p-3">
+                            <input type="text" onchange="updateAuthService(${i}, 'comentario', this.value)" 
+                            class="w-full p-1 border rounded text-[10px]" placeholder="Motivo de la glosa...">
                         </td>
                     </tr>
                 `;
             });
-            document.getElementById('total-cantidad').innerText = autorizaciones.length;
-            document.getElementById('total-monto').innerText = `$ ${totalGeneral.toLocaleString('es-DO', {minimumFractionDigits: 2})}`;
+
+            document.getElementById('modal-auth').classList.remove('hidden-section');
+            document.body.classList.add('modal-active');
         }
 
-        function guardarRadicacion() {
+        function updateAuthService(index, field, value) {
+            if(field === 'glosa') authActual.servicios[index].glosa = parseFloat(value) || 0;
+            else authActual.servicios[index][field] = value;
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-auth').classList.add('hidden-section');
+            document.body.classList.remove('modal-active');
+            document.getElementById('search-input').value = '';
+        }
+
+        function confirmarAgregarAlLote() {
+            const montoBruto = authActual.servicios.reduce((acc, s) => acc + s.monto, 0);
+            const valorGlosa = authActual.servicios.reduce((acc, s) => acc + s.glosa, 0);
+            
+            // Recoger motivos únicos
+            const motivosUnicos = [...new Set(authActual.servicios.map(s => s.motivo).filter(m => m !== ""))].join(", ");
+
+            lote.push({
+                id: authActual.id,
+                afiliado: authActual.afiliado,
+                glosa: valorGlosa,
+                motivos: motivosUnicos || "",
+                neto: montoBruto - valorGlosa
+            });
+
+            renderLote();
+            cerrarModal();
+        }
+
+        function renderLote() {
+            const body = document.getElementById('lote-body');
+            body.innerHTML = '';
+            let totalLote = 0;
+
+            lote.forEach((item, index) => {
+                totalLote += item.neto;
+                body.innerHTML += `
+                    <tr class="grid-row hover:bg-blue-100 transition duration-150">
+                        <td class="grid-cell font-mono text-blue-700 font-bold">${item.id}</td>
+                        <td class="grid-cell uppercase">${item.afiliado}</td>
+                        <td class="grid-cell text-right font-semibold">${item.neto.toLocaleString('es-DO', {minimumFractionDigits: 2})}</td>
+                        <td class="grid-cell text-right text-red-600 font-bold">${item.glosa.toLocaleString('es-DO', {minimumFractionDigits: 2})}</td>
+                        <td class="grid-cell italic text-slate-600">${item.motivos}</td>
+                        <td class="grid-cell text-center">
+                            <button onclick="removerDelLote(${index})" class="text-slate-400 hover:text-red-600 transition">✕</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('total-cant').innerText = lote.length;
+            document.getElementById('total-monto').innerText = `$ ${totalLote.toLocaleString('es-DO', {minimumFractionDigits: 2})}`;
+        }
+
+        function removerDelLote(index) {
+            lote.splice(index, 1);
+            renderLote();
+        }
+
+        function guardarTodo() {
             const ncf = document.getElementById('ncf').value;
             const email = document.getElementById('email-resumen').value;
-            const fechaNcf = document.getElementById('fecha-ncf').value;
 
-            if(!ncf || !email || !fechaNcf || autorizaciones.length === 0) {
-                return Swal.fire('Faltan Datos', 'Complete NCF, Fecha, Email y agregue autorizaciones.', 'warning');
+            if(!ncf || !email || lote.length === 0) {
+                return Swal.fire('Error', 'Debe completar el NCF, Email y agregar al menos una autorización al lote.', 'error');
             }
 
             const radNum = Math.floor(Math.random() * 900000) + 100000;
             const hoy = new Date();
-            const fEfec = new Date(hoy.setDate(hoy.getDate() + 180)).toLocaleDateString('es-DO');
+            const fEfectividad = new Date(hoy);
+            fEfectividad.setDate(fEfectividad.getDate() + 180);
 
             Swal.fire({
                 title: 'Radicación Guardada',
-                html: `<div class="text-left space-y-2">
-                        <p><strong>Número:</strong> ${radNum}</p>
-                        <p><strong>Fecha Efectividad:</strong> ${fEfec}</p>
-                        <p class="text-xs text-slate-500 mt-4 italic">El resumen fue enviado a ${email}</p>
+                html: `<div class="text-left text-sm bg-slate-50 p-4 border rounded-xl shadow-inner">
+                        <p class="mb-2"><strong>Número Generado:</strong> <span class="text-blue-700 font-bold">${radNum}</span></p>
+                        <p class="mb-2"><strong>Fecha Efectividad:</strong> ${fEfectividad.toLocaleDateString('es-DO')}</p>
+                        <hr class="my-2">
+                        <p class="text-[11px] text-slate-500 italic">Se ha enviado un correo con el resumen a: <br><strong>${email}</strong></p>
                        </div>`,
                 icon: 'success',
-                confirmButtonText: 'Finalizar'
+                confirmButtonText: 'Nueva Radicación'
             }).then(() => location.reload());
         }
     </script>
