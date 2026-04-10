@@ -9,6 +9,7 @@
     <style>
         .hidden-section { display: none !important; }
         .nav-active { border-bottom: 4px solid #3b82f6; color: white; }
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
     </style>
 </head>
 <body class="bg-[#0f172a] min-h-screen font-sans">
@@ -17,7 +18,7 @@
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
         <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
-                <h1 class="text-4xl font-black tracking-tight mb-1">APS-ARS</h1>
+                <h1 class="text-4xl font-black tracking-tight mb-1">SISALRIL</h1>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] opacity-90">Portal Prestadores</p>
             </div>
             <div class="p-10 space-y-6">
@@ -29,7 +30,7 @@
                     <label class="block text-[11px] font-black text-[#94a3b8] uppercase mb-2 tracking-wider ml-1">Contraseña</label>
                     <input type="password" id="user-pass" placeholder="••••••••" class="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[15px] text-slate-500 outline-none">
                 </div>
-                <button onclick="handleLogin()" class="w-full bg-[#2563eb] text-white font-bold py-4 rounded-[15px] shadow-lg uppercase text-sm tracking-widest">Iniciar Sesión</button>
+                <button onclick="handleLogin()" class="w-full bg-[#2563eb] text-white font-bold py-4 rounded-[15px] shadow-lg uppercase text-sm tracking-widest hover:bg-blue-700 transition">Iniciar Sesión</button>
             </div>
         </div>
     </div>
@@ -45,35 +46,33 @@
                         <p id="header-prestador" class="text-[10px] text-blue-400 font-bold uppercase tracking-widest"></p>
                     </div>
                 </div>
-                <button onclick="location.reload()" class="text-[10px] font-black border border-red-500/50 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10">SALIR</button>
+                <button onclick="location.reload()" class="text-[10px] font-black border border-red-500/50 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition">SALIR</button>
             </div>
-            <!-- MENÚ DE NAVEGACIÓN -->
             <nav class="max-w-7xl mx-auto px-6 flex gap-8">
                 <button id="nav-nueva" onclick="showTab('nueva')" class="py-4 text-xs font-black uppercase tracking-widest nav-active">Nueva Radicación</button>
-                <button id="nav-historial" onclick="showTab('historial')" class="py-4 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white">Historial / Estados</button>
+                <button id="nav-historial" onclick="showTab('historial')" class="py-4 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-white transition">Historial / Estados</button>
             </nav>
         </header>
 
         <main class="max-w-7xl mx-auto p-8">
-            
-            <!-- VISTA: NUEVA RADICACIÓN -->
             <div id="tab-nueva" class="space-y-6">
-                <!-- (Bloque de Fecha NCF, Número NCF y Correo Resumen) -->
+                <!-- BLOQUE FISCAL -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-900">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha NCF</label>
-                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl outline-none">
+                        <input type="date" id="fecha-ncf" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-blue-500">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Número NCF</label>
-                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl outline-none font-mono uppercase">
+                        <input type="text" id="ncf" placeholder="E310000000187" class="w-full p-3 bg-slate-50 border rounded-xl outline-none font-mono uppercase focus:border-blue-500">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Correo Resumen</label>
-                        <input type="email" id="email-resumen" placeholder="notificaciones@prestador.com" class="w-full p-3 bg-slate-50 border rounded-xl outline-none">
+                        <input type="email" id="email-resumen" placeholder="notificaciones@prestador.com" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-blue-500">
                     </div>
                 </div>
 
+                <!-- BUSCADOR -->
                 <div class="bg-white rounded-2xl shadow-sm border p-6">
                     <h3 class="font-bold text-slate-700 text-[10px] uppercase mb-4 tracking-widest italic">🔍 Búsqueda de Autorizaciones</h3>
                     <div class="flex gap-3">
@@ -82,17 +81,19 @@
                     </div>
                 </div>
 
+                <!-- TABLA DE RECLAMACIONES ACTUALIZADA -->
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead>
                                 <tr class="bg-slate-100/50 text-[10px] text-slate-500 uppercase border-b border-slate-100">
-                                    <th class="px-6 py-4 text-left font-bold">Autor.</th>
-                                    <th class="px-6 py-4 text-left font-bold">Nombre del Afiliado</th>
-                                    <th class="px-6 py-4 text-right font-bold">A Pagar</th>
-                                    <th class="px-6 py-4 text-right font-bold">Glosa</th>
-                                    <th class="px-6 py-4 text-left font-bold">Tipos de glosas aplicadas</th>
-                                    <th class="px-6 py-4 text-center font-bold"></th>
+                                    <th class="px-6 py-5 text-left font-bold">Autor.</th>
+                                    <th class="px-6 py-5 text-left font-bold">Nombre del Afiliado</th>
+                                    <th class="px-6 py-5 text-right font-bold">Valor Autorización</th>
+                                    <th class="px-6 py-5 text-right font-bold text-red-500">Glosa</th>
+                                    <th class="px-6 py-5 text-right font-bold text-blue-600">A Pagar</th>
+                                    <th class="px-6 py-5 text-left font-bold">Tipos de glosas aplicadas</th>
+                                    <th class="px-6 py-5 text-center font-bold"></th>
                                 </tr>
                             </thead>
                             <tbody id="lote-body" class="divide-y divide-slate-50 text-slate-700"></tbody>
@@ -108,7 +109,7 @@
                 </div>
             </div>
 
-            <!-- VISTA: HISTORIAL / ESTADOS -->
+            <!-- TAB HISTORIAL -->
             <div id="tab-historial" class="hidden-section">
                 <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
                     <div class="p-6 border-b bg-slate-50">
@@ -131,27 +132,7 @@
                                     <td class="px-6 py-4 text-slate-500">03/04/2026</td>
                                     <td class="px-6 py-4 font-mono text-xs uppercase">E310000000187</td>
                                     <td class="px-6 py-4 text-right font-bold">$ 28,191.32</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[9px] font-black uppercase">Pagada</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 font-black text-blue-600">RAD-912832</td>
-                                    <td class="px-6 py-4 text-slate-500">08/04/2026</td>
-                                    <td class="px-6 py-4 font-mono text-xs uppercase">E310000000195</td>
-                                    <td class="px-6 py-4 text-right font-bold">$ 12,400.00</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[9px] font-black uppercase">Aprobada</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 font-black text-blue-600">RAD-102934</td>
-                                    <td class="px-6 py-4 text-slate-500">10/04/2026</td>
-                                    <td class="px-6 py-4 font-mono text-xs uppercase">E310000000210</td>
-                                    <td class="px-6 py-4 text-right font-bold">$ 45,670.15</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-[9px] font-black uppercase">En Revisión</span>
-                                    </td>
+                                    <td class="px-6 py-4 text-center"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[9px] font-black uppercase">Pagada</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -161,30 +142,36 @@
         </main>
     </div>
 
-    <!-- MODAL DETALLE (Igual al anterior) -->
+    <!-- MODAL DETALLE -->
     <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
         <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] flex flex-col">
             <div class="bg-[#1e3a8a] p-4 text-white flex justify-between items-center">
                 <h2 class="font-bold text-lg">📋 Detalle: <span id="modal-num-auth" class="text-yellow-400"></span></h2>
-                <button onclick="cerrarModal()" class="text-2xl">✕</button>
+                <button onclick="cerrarModal()" class="text-2xl hover:text-red-400">✕</button>
             </div>
             <div class="p-6 overflow-y-auto">
                 <div class="bg-[#f0f7ff] p-6 rounded-xl border-l-[6px] border-l-blue-500 grid grid-cols-2 gap-8 mb-8">
                     <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Afiliado</p><p id="modal-afiliado" class="font-black text-xl"></p></div>
                     <div><p class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Prestador</p><p id="modal-prestador-solicitante" class="font-bold text-slate-500 uppercase"></p></div>
                 </div>
-                <div class="rounded-xl border border-slate-200 overflow-hidden">
+                <div class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                     <table class="w-full text-sm">
-                        <thead class="bg-slate-800 text-white text-[10px] uppercase">
-                            <tr><th class="px-4 py-4 text-left">Descripción</th><th class="px-4 py-4 text-right">Bruto</th><th class="px-4 py-4 text-center">Glosa</th><th class="px-4 py-4 text-left">Motivo</th><th class="px-4 py-4 text-left">Comentario</th></tr>
+                        <thead class="bg-[#1e293b] text-white text-[10px] uppercase">
+                            <tr>
+                                <th class="px-4 py-4 text-left">Descripción</th>
+                                <th class="px-4 py-4 text-right">Precio Bruto</th>
+                                <th class="px-4 py-4 text-center" style="width: 140px;">Valor Glosa</th>
+                                <th class="px-4 py-4 text-left">Motivo Glosa</th>
+                                <th class="px-4 py-4 text-left">Comentario</th>
+                            </tr>
                         </thead>
-                        <tbody id="modal-servicios-body" class="divide-y"></tbody>
+                        <tbody id="modal-servicios-body" class="divide-y text-slate-700"></tbody>
                     </table>
                 </div>
             </div>
             <div class="p-6 bg-slate-50 border-t flex justify-end gap-4">
                 <button onclick="cerrarModal()" class="px-6 py-3 font-bold text-slate-400 uppercase text-xs">Cancelar</button>
-                <button onclick="confirmarAgregarAlLote()" class="px-10 py-3 bg-blue-700 text-white rounded-xl font-black uppercase text-[10px]">Adicionar al Lote</button>
+                <button onclick="confirmarAgregarAlLote()" class="px-10 py-3 bg-blue-700 text-white rounded-xl font-black uppercase text-[10px] shadow-lg hover:bg-blue-800 transition">Adicionar al Lote</button>
             </div>
         </div>
     </div>
@@ -206,14 +193,10 @@
         function showTab(tab) {
             document.getElementById('tab-nueva').classList.add('hidden-section');
             document.getElementById('tab-historial').classList.add('hidden-section');
-            document.getElementById('nav-nueva').classList.remove('nav-active', 'text-white');
-            document.getElementById('nav-historial').classList.remove('nav-active', 'text-white');
-            document.getElementById('nav-nueva').classList.add('text-slate-400');
-            document.getElementById('nav-historial').classList.add('text-slate-400');
-
+            document.getElementById('nav-nueva').className = "py-4 text-xs font-black uppercase tracking-widest text-slate-400";
+            document.getElementById('nav-historial').className = "py-4 text-xs font-black uppercase tracking-widest text-slate-400";
             document.getElementById('tab-' + tab).classList.remove('hidden-section');
             document.getElementById('nav-' + tab).classList.add('nav-active', 'text-white');
-            document.getElementById('nav-' + tab).classList.remove('text-slate-400');
         }
 
         function abrirModalAutorizacion() {
@@ -247,7 +230,7 @@
             const bruto = authActual.servicios.reduce((acc, s) => acc + s.monto, 0);
             const glosa = authActual.servicios.reduce((acc, s) => acc + s.glosa, 0);
             const motivos = [...new Set(authActual.servicios.map(s => s.motivo).filter(m => m !== ""))].join(", ");
-            lote.unshift({ id: authActual.id, afiliado: authActual.afiliado, neto: bruto - glosa, glosa, motivos });
+            lote.unshift({ id: authActual.id, afiliado: authActual.afiliado, bruto: bruto, neto: bruto - glosa, glosa, motivos });
             renderLote();
             cerrarModal();
             document.getElementById('search-input').value = '';
@@ -256,28 +239,36 @@
         function renderLote() {
             const body = document.getElementById('lote-body');
             body.innerHTML = '';
-            let total = 0;
+            let totalGeneral = 0;
             lote.forEach((item, i) => {
-                total += item.neto;
-                body.innerHTML += `<tr><td class="px-6 py-4 font-mono font-bold text-blue-600">${item.id}</td><td class="px-6 py-4 font-bold uppercase text-[11px]">${item.afiliado}</td><td class="px-6 py-4 text-right font-black">${item.neto.toLocaleString()}</td><td class="px-6 py-4 text-right font-black text-red-500">${item.glosa.toLocaleString()}</td><td class="px-6 py-4 text-[10px] font-bold text-slate-400">${item.motivos || 'Sin Glosa'}</td><td class="px-6 py-4 text-center cursor-pointer hover:text-red-500" onclick="lote.splice(${i},1);renderLote()">✕</td></tr>`;
+                totalGeneral += item.neto;
+                body.innerHTML += `
+                    <tr class="hover:bg-blue-50/50 transition">
+                        <td class="px-6 py-4 font-mono font-bold text-blue-600">${item.id}</td>
+                        <td class="px-6 py-4 font-bold uppercase text-[11px] text-slate-600">${item.afiliado}</td>
+                        <td class="px-6 py-4 text-right font-bold text-slate-500">$ ${item.bruto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right font-black text-red-500 font-mono">$ ${item.glosa.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right font-black text-blue-700 font-mono">$ ${item.neto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-[10px] font-bold text-slate-400 italic">${item.motivos || 'Sin Glosa'}</td>
+                        <td class="px-6 py-4 text-center cursor-pointer text-slate-300 hover:text-red-500" onclick="lote.splice(${i},1);renderLote()">✕</td>
+                    </tr>`;
             });
             document.getElementById('total-cant').innerText = lote.length;
-            document.getElementById('total-monto').innerText = `$ ${total.toLocaleString()}`;
+            document.getElementById('total-monto').innerText = `$ ${totalGeneral.toLocaleString()}`;
         }
 
         function guardarTodo() { 
             const fecha = document.getElementById('fecha-ncf').value;
             const ncf = document.getElementById('ncf').value;
             const email = document.getElementById('email-resumen').value;
-            if(lote.length === 0 || !fecha || !ncf || !email) return Swal.fire('Campos Incompletos', 'Verifique lote, NCF y Correo.', 'warning');
-            
+            if(lote.length === 0 || !fecha || !ncf.trim() || !email.trim()) {
+                return Swal.fire('Campos Incompletos', 'Debe llenar NCF, Fecha, Correo y tener autorizaciones en el lote.', 'warning');
+            }
             const numRad = "RAD-" + Math.floor(Math.random() * 900000 + 100000);
             Swal.fire({
                 title: '¡Lote Guardado!',
-                html: `<div class="py-4"><p class="text-slate-500">Número de radicación:</p><p class="text-3xl font-black text-blue-600">${numRad}</p></div>`,
-                icon: 'success',
-                confirmButtonText: 'ENTENDIDO',
-                confirmButtonColor: '#2ecc71'
+                html: `<div class="py-4"><p class="text-slate-500 mb-2">Se ha generado la radicación:</p><p class="text-4xl font-black text-blue-600 tracking-tighter">${numRad}</p></div>`,
+                icon: 'success', confirmButtonText: 'ENTENDIDO', confirmButtonColor: '#2ecc71'
             }).then(() => location.reload()); 
         }
     </script>
