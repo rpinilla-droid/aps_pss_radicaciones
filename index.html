@@ -15,9 +15,9 @@
 
     <!-- LOGIN -->
     <div id="login-section" class="flex items-center justify-center min-h-screen p-4">
-        <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden">
+        <div class="max-w-[400px] w-full bg-white rounded-[25px] shadow-2xl overflow-hidden text-slate-900">
             <div class="bg-[#1d4ed8] pt-12 pb-8 text-center text-white">
-                <h1 class="text-4xl font-black tracking-tight mb-1">APS-ARS</h1>
+                <h1 class="text-4xl font-black tracking-tight mb-1">APS</h1>
                 <p class="text-[11px] font-bold uppercase tracking-[0.2em] opacity-90">Portal Prestadores</p>
             </div>
             <div class="p-10 space-y-6">
@@ -42,7 +42,7 @@
                     <div class="bg-blue-600 h-10 w-10 rounded-lg flex items-center justify-center font-bold text-xl">R</div>
                     <div>
                         <h2 class="font-bold text-sm tracking-tight uppercase">Portal de Radicaciones</h2>
-                        <p id="header-prestador" class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">POLICLINICO UNION S R L</p>
+                        <p id="header-prestador" class="text-[10px] text-blue-400 font-bold uppercase tracking-widest"></p>
                     </div>
                 </div>
                 <button onclick="location.reload()" class="text-[10px] font-black border border-red-500/50 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition uppercase">Salir</button>
@@ -55,7 +55,8 @@
 
         <main class="max-w-7xl mx-auto p-8">
             <div id="tab-nueva" class="space-y-6">
-                <!-- FORMULARIO FISCAL -->
+                
+                <!-- CAMPOS ENCABEZADO -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha NCF</label>
@@ -76,19 +77,11 @@
                     <h3 class="font-bold text-slate-700 text-[10px] uppercase mb-4 tracking-widest italic">🔍 Búsqueda de Autorizaciones</h3>
                     <div class="flex gap-3">
                         <input type="text" id="search-input" placeholder="Ingrese Número (Ej: 3726192)..." class="flex-1 p-3 border-2 border-slate-100 rounded-xl outline-none focus:border-blue-500">
-                        <button onclick="abrirModalAutorizacion()" class="bg-slate-900 text-white px-10 rounded-xl font-bold hover:bg-blue-700 transition uppercase text-xs">Buscar</button>
+                        <button onclick="buscarAuth()" class="bg-[#1e293b] text-white px-10 rounded-xl font-bold hover:bg-blue-700 transition uppercase text-xs">Buscar</button>
                     </div>
                 </div>
 
-                <!-- AVISO SOLICITADO -->
-                <div class="bg-[#f0f7ff] border-l-[3px] border-blue-600 p-5 rounded-r-xl flex items-center gap-4">
-                    <div class="bg-blue-600 text-white w-6 h-6 flex items-center justify-center rounded-sm text-xs font-bold">i</div>
-                    <p class="text-[11px] font-bold text-[#1e40af] uppercase tracking-wide">
-                        Todos los campos del encabezado (Fecha, NCF y Correo) son obligatorios para finalizar la radicación.
-                    </p>
-                </div>
-
-                <!-- TABLA LOTE -->
+                <!-- TABLA LOTE (Banner eliminado) -->
                 <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
@@ -103,7 +96,7 @@
                                     <th class="px-6 py-5"></th>
                                 </tr>
                             </thead>
-                            <tbody id="lote-body" class="divide-y divide-slate-50"></tbody>
+                            <tbody id="lote-body" class="divide-y divide-slate-100"></tbody>
                         </table>
                     </div>
                     <div class="p-8 bg-[#0f172a] text-white flex justify-between items-center">
@@ -111,36 +104,21 @@
                             <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Cant. Radicaciones</p><p id="total-cant" class="text-4xl font-black">0</p></div>
                             <div><p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Valor Neto Total</p><p id="total-monto" class="text-4xl font-black">$ 0.00</p></div>
                         </div>
-                        <button onclick="guardarTodo()" class="bg-[#2ecc71] text-slate-900 px-12 py-5 rounded-2xl font-black text-xl hover:bg-[#27ae60] transition shadow-xl uppercase">Finalizar y Guardar</button>
+                        <button onclick="finalizar()" class="bg-[#2ecc71] text-[#0f172a] px-12 py-5 rounded-2xl font-black text-xl hover:bg-[#27ae60] transition shadow-xl uppercase">Finalizar y Guardar</button>
                     </div>
                 </div>
             </div>
-            <!-- Historial oculto por defecto -->
+            
             <div id="tab-historial" class="hidden-section">
-                <div class="bg-white rounded-2xl shadow-xl p-10 text-center">
-                    <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">No hay radicaciones anteriores registradas.</p>
+                <div class="bg-white rounded-xl p-20 text-center border-2 border-dashed border-slate-200">
+                    <p class="text-slate-400 font-bold uppercase text-xs">No hay registros en el historial.</p>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- MODAL (Simplificado para el ejemplo) -->
-    <div id="modal-auth" class="hidden-section fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-4xl rounded-2xl p-8">
-            <h2 class="text-xl font-bold mb-4 uppercase">Autorización <span id="modal-id"></span></h2>
-            <div class="space-y-4 mb-6">
-                <p class="text-sm"><strong>Afiliado:</strong> JUNIEL ABREU MARTE</p>
-                <p class="text-sm"><strong>Monto Bruto:</strong> $ 16,334.66</p>
-            </div>
-            <div class="flex justify-end gap-3">
-                <button onclick="cerrarModal()" class="px-6 py-2 text-xs font-bold uppercase">Cerrar</button>
-                <button onclick="agregarAlLote()" class="bg-blue-600 text-white px-8 py-2 rounded-xl text-xs font-bold uppercase">Agregar</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let lote = [];
+        let items = [];
 
         function handleLogin() {
             const user = document.getElementById('user-code').value;
@@ -158,57 +136,51 @@
             document.getElementById('nav-historial').className = tab === 'historial' ? "py-4 text-xs font-black uppercase tracking-widest nav-active" : "py-4 text-xs font-black uppercase tracking-widest text-slate-400";
         }
 
-        function abrirModalAutorizacion() {
+        function buscarAuth() {
             const val = document.getElementById('search-input').value;
-            if(!val) return;
-            document.getElementById('modal-id').innerText = val;
-            document.getElementById('modal-auth').classList.remove('hidden-section');
-        }
-
-        function cerrarModal() { document.getElementById('modal-auth').classList.add('hidden-section'); }
-
-        function agregarAlLote() {
-            const id = document.getElementById('modal-id').innerText;
-            lote.push({ id, nombre: "JUNIEL ABREU MARTE", bruto: 16334.66, glosa: 200, neto: 16134.66, motivo: "Tarifa, Pertinencia" });
-            render();
-            cerrarModal();
+            if (val) {
+                // Simulación de carga de datos 3726192 y 3726193
+                items.push({ id: val, nombre: 'JUNIEL ABREU MARTE', bruto: 8067.33, glosa: 0, neto: 8067.33, motivo: 'Tarifa' });
+                render();
+                document.getElementById('search-input').value = '';
+            }
         }
 
         function render() {
             const b = document.getElementById('lote-body');
             b.innerHTML = '';
             let total = 0;
-            lote.forEach((it, i) => {
+            items.forEach((it, i) => {
                 total += it.neto;
                 b.innerHTML += `
                     <tr>
                         <td class="px-6 py-4 font-mono font-bold text-blue-600">${it.id}</td>
                         <td class="px-6 py-4 font-bold uppercase text-[11px]">${it.nombre}</td>
-                        <td class="px-6 py-4 text-right">$ ${it.bruto.toLocaleString()}</td>
+                        <td class="px-6 py-4 text-right font-medium">$ ${it.bruto.toLocaleString()}</td>
                         <td class="px-6 py-4 text-right text-red-500 font-bold">$ ${it.glosa.toLocaleString()}</td>
                         <td class="px-6 py-4 text-right text-blue-600 font-black">$ ${it.neto.toLocaleString()}</td>
                         <td class="px-6 py-4 text-[10px] font-bold text-slate-400 italic">${it.motivo}</td>
-                        <td class="px-6 py-4 text-center cursor-pointer text-slate-300 hover:text-red-500" onclick="lote.splice(${i},1);render()">✕</td>
+                        <td class="px-6 py-4 text-center cursor-pointer hover:text-red-500" onclick="items.splice(${i},1);render()">✕</td>
                     </tr>`;
             });
-            document.getElementById('total-cant').innerText = lote.length;
+            document.getElementById('total-cant').innerText = items.length;
             document.getElementById('total-monto').innerText = `$ ${total.toLocaleString()}`;
         }
 
-        function guardarTodo() {
+        function finalizar() {
             const f = document.getElementById('fecha-ncf').value;
             const n = document.getElementById('ncf').value;
             const e = document.getElementById('email-resumen').value;
 
-            if(!f || !n || !e || lote.length === 0) {
+            if (!f || !n || !e || items.length === 0) {
                 Swal.fire({
                     title: 'Incompleto',
                     text: 'Llene todos los campos.',
                     icon: 'warning',
-                    confirmButtonColor: '#6366f1'
+                    confirmButtonColor: '#3b82f6'
                 });
             } else {
-                Swal.fire('¡Éxito!', 'Radicación enviada correctamente.', 'success').then(() => location.reload());
+                Swal.fire('¡Éxito!', 'Radicación guardada.', 'success').then(() => location.reload());
             }
         }
     </script>
